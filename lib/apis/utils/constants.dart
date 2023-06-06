@@ -1,5 +1,5 @@
 class WalletConnectConstants {
-  static const SDK_VERSION = '2.0.7';
+  static const SDK_VERSION = '2.0.8';
 
   static const CORE_PROTOCOL = 'wc';
   static const CORE_VERSION = 2;
@@ -19,6 +19,8 @@ class WalletConnectConstants {
   static const THIRTY_DAYS = ONE_DAY * 30;
 
   static const RELAYER_DEFAULT_PROTOCOL = 'irn';
+
+  static const DEFAULT_PUSH_URL = 'https://echo.walletconnect.com';
 }
 
 class StoreVersions {
