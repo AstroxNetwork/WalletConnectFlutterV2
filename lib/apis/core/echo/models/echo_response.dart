@@ -14,7 +14,7 @@ class EchoResponse {
     required this.status,
   });
 
-  factory EchoResponse.fromJson(Map<String, dynamic> json) =>
+  factory EchoResponse.fromJson(Map json) =>
       _$EchoResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$EchoResponseToJson(this);
@@ -27,7 +27,7 @@ class ResponseError {
 
   ResponseError({required this.message, required this.name});
 
-  factory ResponseError.fromJson(Map<String, dynamic> json) =>
+  factory ResponseError.fromJson(Map json) =>
       _$ResponseErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$ResponseErrorToJson(this);
@@ -45,7 +45,7 @@ class Field {
     required this.location,
   });
 
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
+  factory Field.fromJson(Map json) => _$FieldFromJson(json);
 
   Map<String, dynamic> toJson() => _$FieldToJson(this);
 }

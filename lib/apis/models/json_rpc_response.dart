@@ -17,7 +17,7 @@ class JsonRpcResponse<T> {
     this.result,
   });
 
-  factory JsonRpcResponse.fromJson(Map<String, dynamic> json) =>
+  factory JsonRpcResponse.fromJson(Map json) =>
       _$JsonRpcResponseFromJson(json, (object) => object as T);
   Map<String, dynamic> toJson() => _$JsonRpcResponseToJson(this, (t) => t);
 

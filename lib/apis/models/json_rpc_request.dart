@@ -16,7 +16,7 @@ class JsonRpcRequest {
     this.params,
   });
 
-  factory JsonRpcRequest.fromJson(Map<String, dynamic> json) =>
+  factory JsonRpcRequest.fromJson(Map json) =>
       _$JsonRpcRequestFromJson(json);
   Map<String, dynamic> toJson() => _$JsonRpcRequestToJson(this);
 

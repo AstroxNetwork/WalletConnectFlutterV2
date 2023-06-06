@@ -17,7 +17,7 @@ class RequiredNamespace {
     required this.events,
   });
 
-  factory RequiredNamespace.fromJson(Map<String, dynamic> json) =>
+  factory RequiredNamespace.fromJson(Map json) =>
       _$RequiredNamespaceFromJson(json);
 
   Map<String, dynamic> toJson() => _$RequiredNamespaceToJson(this);
@@ -60,7 +60,7 @@ class SessionProposal {
     required this.params,
   });
 
-  factory SessionProposal.fromJson(Map<String, dynamic> json) =>
+  factory SessionProposal.fromJson(Map json) =>
       _$SessionProposalFromJson(json);
 
   Map<String, dynamic> toJson() => _$SessionProposalToJson(this);
@@ -90,7 +90,7 @@ class ProposalData {
     this.generatedNamespaces,
   });
 
-  factory ProposalData.fromJson(Map<String, dynamic> json) =>
+  factory ProposalData.fromJson(Map json) =>
       _$ProposalDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProposalDataToJson(this);

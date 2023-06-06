@@ -29,7 +29,7 @@ class PairingInfo {
     this.peerMetadata,
   });
 
-  factory PairingInfo.fromJson(Map<String, dynamic> json) =>
+  factory PairingInfo.fromJson(Map json) =>
       _$PairingInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PairingInfoToJson(this);
@@ -63,7 +63,7 @@ class PairingMetadata {
         icons: [],
       );
 
-  factory PairingMetadata.fromJson(Map<String, dynamic> json) =>
+  factory PairingMetadata.fromJson(Map json) =>
       _$PairingMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$PairingMetadataToJson(this);
@@ -100,7 +100,7 @@ class Redirect {
     this.universal,
   });
 
-  factory Redirect.fromJson(Map<String, dynamic> json) =>
+  factory Redirect.fromJson(Map json) =>
       _$RedirectFromJson(json);
 
   Map<String, dynamic> toJson() => _$RedirectToJson(this);
@@ -228,7 +228,7 @@ class JsonRpcRecord {
     this.expiry,
   });
 
-  factory JsonRpcRecord.fromJson(Map<String, dynamic> json) =>
+  factory JsonRpcRecord.fromJson(Map json) =>
       _$JsonRpcRecordFromJson(json);
 
   Map<String, dynamic> toJson() => _$JsonRpcRecordToJson(this);
@@ -251,7 +251,7 @@ class ReceiverPublicKey {
     required this.expiry,
   });
 
-  factory ReceiverPublicKey.fromJson(Map<String, dynamic> json) =>
+  factory ReceiverPublicKey.fromJson(Map json) =>
       _$ReceiverPublicKeyFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReceiverPublicKeyToJson(this);

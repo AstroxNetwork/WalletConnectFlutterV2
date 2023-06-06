@@ -14,7 +14,7 @@ class WcAuthRequestRequest {
     required this.requester,
   });
 
-  factory WcAuthRequestRequest.fromJson(Map<String, dynamic> json) =>
+  factory WcAuthRequestRequest.fromJson(Map json) =>
       _$WcAuthRequestRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$WcAuthRequestRequestToJson(this);
@@ -28,7 +28,7 @@ class WcAuthRequestResult {
     required this.cacao,
   });
 
-  factory WcAuthRequestResult.fromJson(Map<String, dynamic> json) =>
+  factory WcAuthRequestResult.fromJson(Map json) =>
       _$WcAuthRequestResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$WcAuthRequestResultToJson(this);

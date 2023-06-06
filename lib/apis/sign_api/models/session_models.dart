@@ -44,7 +44,7 @@ class Namespace {
     required this.events,
   });
 
-  factory Namespace.fromJson(Map<String, dynamic> json) =>
+  factory Namespace.fromJson(Map json) =>
       _$NamespaceFromJson(json);
 
   Map<String, dynamic> toJson() => _$NamespaceToJson(this);
@@ -105,7 +105,7 @@ class SessionData {
     required this.peer,
   });
 
-  factory SessionData.fromJson(Map<String, dynamic> json) =>
+  factory SessionData.fromJson(Map json) =>
       _$SessionDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$SessionDataToJson(this);
@@ -133,7 +133,7 @@ class SessionRequest {
     required this.params,
   });
 
-  factory SessionRequest.fromJson(Map<String, dynamic> json) =>
+  factory SessionRequest.fromJson(Map json) =>
       _$SessionRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SessionRequestToJson(this);

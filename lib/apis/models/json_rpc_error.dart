@@ -23,7 +23,7 @@ class JsonRpcError {
   factory JsonRpcError.methodNotFound(String message) =>
       JsonRpcError(code: -32601, message: message);
 
-  factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
+  factory JsonRpcError.fromJson(Map json) =>
       _$JsonRpcErrorFromJson(json);
   Map<String, dynamic> toJson() => _$JsonRpcErrorToJson(this);
 

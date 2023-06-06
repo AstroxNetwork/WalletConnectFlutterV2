@@ -6,7 +6,7 @@ part of 'relay_client_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Relay _$RelayFromJson(Map<String, dynamic> json) => Relay(
+Relay _$RelayFromJson(Map json) => Relay(
       json['protocol'] as String,
       data: json['data'] as String?,
     );

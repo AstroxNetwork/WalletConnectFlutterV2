@@ -31,7 +31,7 @@ class WalletConnectError {
     );
   }
 
-  factory WalletConnectError.fromJson(Map<String, dynamic> json) =>
+  factory WalletConnectError.fromJson(Map json) =>
       _$WalletConnectErrorFromJson(json);
 
   Map<String, dynamic> toJson() => _$WalletConnectErrorToJson(this);
@@ -81,7 +81,7 @@ class ConnectionMetadata {
     required this.metadata,
   });
 
-  factory ConnectionMetadata.fromJson(Map<String, dynamic> json) =>
+  factory ConnectionMetadata.fromJson(Map json) =>
       _$ConnectionMetadataFromJson(json);
 
   Map<String, dynamic> toJson() => _$ConnectionMetadataToJson(this);

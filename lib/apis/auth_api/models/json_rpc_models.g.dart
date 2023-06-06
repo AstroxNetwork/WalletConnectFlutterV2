@@ -6,13 +6,10 @@ part of 'json_rpc_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-WcAuthRequestRequest _$WcAuthRequestRequestFromJson(
-        Map<String, dynamic> json) =>
+WcAuthRequestRequest _$WcAuthRequestRequestFromJson(Map json) =>
     WcAuthRequestRequest(
-      payloadParams: AuthPayloadParams.fromJson(
-          json['payloadParams'] as Map<String, dynamic>),
-      requester: ConnectionMetadata.fromJson(
-          json['requester'] as Map<String, dynamic>),
+      payloadParams: AuthPayloadParams.fromJson(json['payloadParams'] as Map),
+      requester: ConnectionMetadata.fromJson(json['requester'] as Map),
     );
 
 Map<String, dynamic> _$WcAuthRequestRequestToJson(
@@ -22,9 +19,9 @@ Map<String, dynamic> _$WcAuthRequestRequestToJson(
       'requester': instance.requester.toJson(),
     };
 
-WcAuthRequestResult _$WcAuthRequestResultFromJson(Map<String, dynamic> json) =>
+WcAuthRequestResult _$WcAuthRequestResultFromJson(Map json) =>
     WcAuthRequestResult(
-      cacao: Cacao.fromJson(json['cacao'] as Map<String, dynamic>),
+      cacao: Cacao.fromJson(json['cacao'] as Map),
     );
 
 Map<String, dynamic> _$WcAuthRequestResultToJson(

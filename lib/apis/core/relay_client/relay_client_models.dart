@@ -13,7 +13,7 @@ class Relay {
     this.data,
   });
 
-  factory Relay.fromJson(Map<String, dynamic> json) => _$RelayFromJson(json);
+  factory Relay.fromJson(Map json) => _$RelayFromJson(json);
 
   Map<String, dynamic> toJson() => _$RelayToJson(this);
 }

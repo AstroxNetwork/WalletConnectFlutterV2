@@ -6,7 +6,7 @@ part of 'echo_body.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EchoBody _$EchoBodyFromJson(Map<String, dynamic> json) => EchoBody(
+EchoBody _$EchoBodyFromJson(Map json) => EchoBody(
       clientId: json['client_id'] as String,
       token: json['token'] as String,
       type: json['type'] as String? ?? 'fcm',

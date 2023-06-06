@@ -29,7 +29,7 @@ class AuthPublicKey {
     required this.publicKey,
   });
 
-  factory AuthPublicKey.fromJson(Map<String, dynamic> json) =>
+  factory AuthPublicKey.fromJson(Map json) =>
       _$AuthPublicKeyFromJson(json);
 
   Map<String, dynamic> toJson() => _$AuthPublicKeyToJson(this);
@@ -119,7 +119,7 @@ class AuthPayloadParams {
     );
   }
 
-  factory AuthPayloadParams.fromJson(Map<String, dynamic> json) =>
+  factory AuthPayloadParams.fromJson(Map json) =>
       _$AuthPayloadParamsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AuthPayloadParamsToJson(this);
@@ -166,7 +166,7 @@ class CacaoRequestPayload {
     );
   }
 
-  factory CacaoRequestPayload.fromJson(Map<String, dynamic> json) =>
+  factory CacaoRequestPayload.fromJson(Map json) =>
       _$CacaoRequestPayloadFromJson(json);
 
   Map<String, dynamic> toJson() => _$CacaoRequestPayloadToJson(this);
@@ -220,7 +220,7 @@ class CacaoPayload extends CacaoRequestPayload {
     );
   }
 
-  factory CacaoPayload.fromJson(Map<String, dynamic> json) =>
+  factory CacaoPayload.fromJson(Map json) =>
       _$CacaoPayloadFromJson(json);
 
   @override
@@ -237,7 +237,7 @@ class CacaoHeader {
     this.t = 'eip4361',
   });
 
-  factory CacaoHeader.fromJson(Map<String, dynamic> json) =>
+  factory CacaoHeader.fromJson(Map json) =>
       _$CacaoHeaderFromJson(json);
 
   Map<String, dynamic> toJson() => _$CacaoHeaderToJson(this);
@@ -258,7 +258,7 @@ class CacaoSignature {
     this.m,
   });
 
-  factory CacaoSignature.fromJson(Map<String, dynamic> json) =>
+  factory CacaoSignature.fromJson(Map json) =>
       _$CacaoSignatureFromJson(json);
 
   Map<String, dynamic> toJson() => _$CacaoSignatureToJson(this);
@@ -276,7 +276,7 @@ class Cacao {
     required this.s,
   });
 
-  factory Cacao.fromJson(Map<String, dynamic> json) => _$CacaoFromJson(json);
+  factory Cacao.fromJson(Map json) => _$CacaoFromJson(json);
 
   Map<String, dynamic> toJson() => _$CacaoToJson(this);
 }
@@ -308,7 +308,7 @@ class StoredCacao extends Cacao {
     );
   }
 
-  factory StoredCacao.fromJson(Map<String, dynamic> json) =>
+  factory StoredCacao.fromJson(Map json) =>
       _$StoredCacaoFromJson(json);
 
   @override
@@ -329,7 +329,7 @@ class PendingAuthRequest {
     required this.cacaoPayload,
   });
 
-  factory PendingAuthRequest.fromJson(Map<String, dynamic> json) =>
+  factory PendingAuthRequest.fromJson(Map json) =>
       _$PendingAuthRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$PendingAuthRequestToJson(this);

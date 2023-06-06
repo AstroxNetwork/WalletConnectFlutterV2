@@ -6,15 +6,14 @@ part of 'pairing_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PairingInfo _$PairingInfoFromJson(Map<String, dynamic> json) => PairingInfo(
+PairingInfo _$PairingInfoFromJson(Map json) => PairingInfo(
       topic: json['topic'] as String,
       expiry: json['expiry'] as int,
-      relay: Relay.fromJson(json['relay'] as Map<String, dynamic>),
+      relay: Relay.fromJson(json['relay'] as Map),
       active: json['active'] as bool,
       peerMetadata: json['peerMetadata'] == null
           ? null
-          : PairingMetadata.fromJson(
-              json['peerMetadata'] as Map<String, dynamic>),
+          : PairingMetadata.fromJson(json['peerMetadata'] as Map),
     );
 
 Map<String, dynamic> _$PairingInfoToJson(PairingInfo instance) =>
@@ -26,15 +25,14 @@ Map<String, dynamic> _$PairingInfoToJson(PairingInfo instance) =>
       'peerMetadata': instance.peerMetadata?.toJson(),
     };
 
-PairingMetadata _$PairingMetadataFromJson(Map<String, dynamic> json) =>
-    PairingMetadata(
+PairingMetadata _$PairingMetadataFromJson(Map json) => PairingMetadata(
       name: json['name'] as String,
       description: json['description'] as String,
       url: json['url'] as String,
       icons: (json['icons'] as List<dynamic>).map((e) => e as String).toList(),
       redirect: json['redirect'] == null
           ? null
-          : Redirect.fromJson(json['redirect'] as Map<String, dynamic>),
+          : Redirect.fromJson(json['redirect'] as Map),
     );
 
 Map<String, dynamic> _$PairingMetadataToJson(PairingMetadata instance) =>
@@ -46,7 +44,7 @@ Map<String, dynamic> _$PairingMetadataToJson(PairingMetadata instance) =>
       'redirect': instance.redirect?.toJson(),
     };
 
-Redirect _$RedirectFromJson(Map<String, dynamic> json) => Redirect(
+Redirect _$RedirectFromJson(Map json) => Redirect(
       native: json['native'] as String?,
       universal: json['universal'] as String?,
     );
@@ -56,8 +54,7 @@ Map<String, dynamic> _$RedirectToJson(Redirect instance) => <String, dynamic>{
       'universal': instance.universal,
     };
 
-JsonRpcRecord _$JsonRpcRecordFromJson(Map<String, dynamic> json) =>
-    JsonRpcRecord(
+JsonRpcRecord _$JsonRpcRecordFromJson(Map json) => JsonRpcRecord(
       id: json['id'] as int,
       topic: json['topic'] as String,
       method: json['method'] as String,
@@ -86,8 +83,7 @@ Map<String, dynamic> _$JsonRpcRecordToJson(JsonRpcRecord instance) {
   return val;
 }
 
-ReceiverPublicKey _$ReceiverPublicKeyFromJson(Map<String, dynamic> json) =>
-    ReceiverPublicKey(
+ReceiverPublicKey _$ReceiverPublicKeyFromJson(Map json) => ReceiverPublicKey(
       topic: json['topic'] as String,
       publicKey: json['publicKey'] as String,
       expiry: json['expiry'] as int,
