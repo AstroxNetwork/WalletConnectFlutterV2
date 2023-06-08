@@ -348,13 +348,20 @@ class SignEngine implements ISignEngine {
         // Sometimes we don't receive any response for a long time,
         // in which case we manually time out to prevent waiting indefinitely.
         .timeout(const Duration(seconds: 15))
-        .catchError((_) {
-      return false;
-    });
+        .catchError(
+      (_) {
+        return false;
+      },
+    );
+
+    session.acknowledged = acknowledged;
 
     if (acknowledged && sessions.has(sessionTopic)) {
       // We directly update the latest value.
-      await sessions.set(sessionTopic, session.withAcknowledged(acknowledged));
+      await sessions.set(
+        sessionTopic,
+        session,
+      );
     }
 
     return ApproveResponse(
@@ -959,10 +966,10 @@ class SignEngine implements ISignEngine {
     final request = WcSessionSettleRequest.fromJson(payload.params);
     try {
       await _isValidSessionSettleRequest(request.namespaces, request.expiry);
-      // SessionProposalCompleter sProposalCompleter =
-      //     pendingProposals.remove(topic)!;
+
       final SessionProposalCompleter sProposalCompleter =
           pendingProposals.removeLast();
+      print(sProposalCompleter);
 
       // Create the session
       final SessionData session = SessionData(
