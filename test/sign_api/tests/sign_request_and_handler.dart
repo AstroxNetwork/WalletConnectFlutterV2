@@ -56,12 +56,12 @@ void signRequestAndHandler({
       final sessionTopic = connectionInfo.session.topic;
 
       // No handler
-      // print('swag 1');
+      clientA.core.logger.i('No handler');
       try {
         final _ = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: 'nonexistant',
             params: TEST_MESSAGE_1,
           ),
@@ -94,18 +94,18 @@ void signRequestAndHandler({
 
       Completer clientBReady = Completer();
       clientB.pendingRequests.onSync.subscribe((args) {
-        if (clientB.getPendingSessionRequests().isEmpty) {
+        if (clientB.getPendingSessionRequests().isEmpty &&
+            !clientBReady.isCompleted) {
           clientBReady.complete();
-          clientBReady = Completer();
         }
       });
 
       try {
-        // print('swag 2');
+        clientA.core.logger.i('Request handler 1');
         final Map<String, dynamic> response = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -113,13 +113,20 @@ void signRequestAndHandler({
 
         expect(response, TEST_MESSAGE_1);
 
-        await clientBReady.future;
+        clientA.core.logger.i('Request handler 1, waiting for clientBReady');
+        if (clientBReady.isCompleted) {
+          clientBReady = Completer();
+        } else {
+          await clientBReady.future;
+          clientBReady = Completer();
+        }
 
         // print('swag 3');
+        clientA.core.logger.i('Request handler 2');
         final String response2 = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_2,
           ),
@@ -127,7 +134,11 @@ void signRequestAndHandler({
 
         expect(response2, TEST_MESSAGE_2);
 
-        await clientBReady.future;
+        clientA.core.logger.i('Request handler 2, waiting for clientBReady');
+        if (!clientBReady.isCompleted) {
+          await clientBReady.future;
+        }
+
         clientB.sessions.onSync.unsubscribeAll();
       } on JsonRpcError catch (e) {
         print(e);
@@ -160,7 +171,7 @@ void signRequestAndHandler({
         clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: 'silent',
           ),
@@ -170,7 +181,7 @@ void signRequestAndHandler({
         await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_2,
           ),
@@ -190,11 +201,10 @@ void signRequestAndHandler({
       }
 
       try {
-        // print('sessions: ${clientA.sessions.getAll()}');
         final _ = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: {'test': 'swag'},
           ),
@@ -221,9 +231,11 @@ void signRequestAndHandler({
       });
 
       if (!pendingRequestCompleter.isCompleted) {
+        clientA.core.logger.i('waiting pendingRequestCompleter');
         await pendingRequestCompleter.future;
       }
       if (!sessionRequestCompleter.isCompleted) {
+        clientA.core.logger.i('waiting sessionRequestComplete');
         await sessionRequestCompleter.future;
       }
       clientB.pendingRequests.onSync.unsubscribeAll();
@@ -274,7 +286,7 @@ void signRequestAndHandler({
         Map<String, dynamic> response = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -285,7 +297,7 @@ void signRequestAndHandler({
         Map<String, dynamic> _ = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_2,
             params: TEST_MESSAGE_1,
           ),
@@ -298,7 +310,7 @@ void signRequestAndHandler({
           e.code,
           JsonRpcError.invalidParams('swag').code,
         );
-        expect(e.message.contains(TEST_MESSAGE_1.toString()), true);
+        expect(e.message!.contains(TEST_MESSAGE_1.toString()), true);
       }
 
       // Try an error
@@ -327,7 +339,7 @@ void signRequestAndHandler({
         final _ = await clientA.request(
           topic: connectionInfo.session.topic,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -344,7 +356,7 @@ void signRequestAndHandler({
         () async => await clientA.request(
           topic: TEST_SESSION_INVALID_TOPIC,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -376,7 +388,7 @@ void signRequestAndHandler({
         () async => await clientA.request(
           topic: TEST_SESSION_EXPIRED_TOPIC,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -411,7 +423,7 @@ void signRequestAndHandler({
         () async => await clientA.request(
           topic: TEST_SESSION_VALID_TOPIC,
           chainId: TEST_UNINCLUDED_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_1,
             params: TEST_MESSAGE_1,
           ),
@@ -428,7 +440,7 @@ void signRequestAndHandler({
         () async => await clientA.request(
           topic: TEST_SESSION_VALID_TOPIC,
           chainId: TEST_ETHEREUM_CHAIN,
-          request: SessionRequestParams(
+          request: const SessionRequestParams(
             method: TEST_METHOD_INVALID_1,
             params: TEST_MESSAGE_1,
           ),

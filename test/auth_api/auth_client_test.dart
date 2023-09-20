@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:eth_sig_util/eth_sig_util.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:walletconnect_flutter_v2/apis/auth_api/auth_engine.dart';
 import 'package:walletconnect_flutter_v2/apis/auth_api/i_auth_engine_app.dart';
 import 'package:walletconnect_flutter_v2/apis/auth_api/i_auth_engine_wallet.dart';
@@ -26,6 +27,7 @@ void main() {
           relayUrl: TEST_RELAY_URL,
           metadata: metadata,
           memoryStore: true,
+          logLevel: Level.info,
           httpClient: getHttpWrapper(),
         ),
     (PairingMetadata? self) async {
@@ -33,6 +35,7 @@ void main() {
         projectId: TEST_PROJECT_ID,
         relayUrl: TEST_RELAY_URL,
         memoryStore: true,
+        logLevel: Level.info,
         httpClient: getHttpWrapper(),
       );
       IAuthEngine e = AuthEngine(
@@ -82,6 +85,7 @@ void main() {
           relayUrl: TEST_RELAY_URL,
           metadata: metadata,
           memoryStore: true,
+          logLevel: Level.info,
           httpClient: getHttpWrapper(),
         ),
   ];
@@ -93,6 +97,7 @@ void main() {
           relayUrl: TEST_RELAY_URL,
           metadata: metadata,
           memoryStore: true,
+          logLevel: Level.info,
           httpClient: getHttpWrapper(),
         ),
     (PairingMetadata metadata) async {
@@ -100,6 +105,7 @@ void main() {
         projectId: TEST_PROJECT_ID,
         relayUrl: TEST_RELAY_URL,
         memoryStore: true,
+        logLevel: Level.info,
         httpClient: getHttpWrapper(),
       );
       IAuthEngine e = AuthEngine(
@@ -148,6 +154,7 @@ void main() {
           relayUrl: TEST_RELAY_URL,
           metadata: metadata,
           memoryStore: true,
+          logLevel: Level.info,
           httpClient: getHttpWrapper(),
         ),
   ];
@@ -224,6 +231,8 @@ void runTests({
         clientA.onAuthResponse.subscribe((AuthResponse? args) {
           counterA++;
           completerA.complete();
+
+          expect(args!.result, isNotNull);
         });
         clientB.onAuthRequest.subscribe((AuthRequest? args) async {
           counterB++;
@@ -266,10 +275,22 @@ void runTests({
         await clientA.core.pairing.ping(topic: pairingTopic);
         await clientB.core.pairing.ping(topic: pairingTopic);
 
-        await completerAPairing.future;
-        await completerBPairing.future;
-        await completerA.future;
-        await completerB.future;
+        if (!completerAPairing.isCompleted) {
+          clientA.core.logger.i('Waiting for completerAPairing');
+          await completerAPairing.future;
+        }
+        if (!completerBPairing.isCompleted) {
+          clientA.core.logger.i('Waiting for completerBPairing');
+          await completerBPairing.future;
+        }
+        if (!completerA.isCompleted) {
+          clientA.core.logger.i('Waiting for completerA');
+          await completerA.future;
+        }
+        if (!completerB.isCompleted) {
+          clientA.core.logger.i('Waiting for completerB');
+          await completerB.future;
+        }
 
         AuthResponse authResponse = await response.completer.future;
         expect(authResponse.result != null, true);
@@ -307,8 +328,14 @@ void runTests({
 
         expect(response.uri == null, true);
 
-        await completerA.future;
-        await completerB.future;
+        if (!completerA.isCompleted) {
+          clientA.core.logger.i('Waiting for completerA');
+          await completerA.future;
+        }
+        if (!completerB.isCompleted) {
+          clientA.core.logger.i('Waiting for completerB');
+          await completerB.future;
+        }
 
         authResponse = await response.completer.future;
         expect(authResponse.result != null, true);
@@ -355,7 +382,10 @@ void runTests({
           completerA.complete();
         });
 
-        await completerA.future;
+        if (!completerA.isCompleted) {
+          clientA.core.logger.i('Waiting for completerA');
+          await completerA.future;
+        }
 
         expect(clientB.getPendingAuthRequests().length, 1);
 
@@ -366,7 +396,10 @@ void runTests({
           pairingTopic: pairingTopic,
         );
 
-        await completerA.future;
+        if (!completerA.isCompleted) {
+          clientA.core.logger.i('Waiting for completerA');
+          await completerA.future;
+        }
 
         expect(clientB.getPendingAuthRequests().length, 2);
       });
@@ -445,7 +478,7 @@ void runTests({
       test('works', () {
         final String message = clientA.formatAuthMessage(
           iss: TEST_ISSUER_EIP191,
-          cacaoPayload: testCacaoPayload,
+          cacaoPayload: CacaoRequestPayload.fromCacaoPayload(testCacaoPayload),
         );
         expect(message, TEST_FORMATTED_MESSAGE);
       });

@@ -233,7 +233,7 @@ class Pairing implements IPairing {
     required ProtocolType type,
   }) {
     if (routerMapRequest.containsKey(method)) {
-      throw WalletConnectError(
+      throw const WalletConnectError(
         code: -1,
         message: 'Method already exists',
       );
@@ -277,7 +277,7 @@ class Pairing implements IPairing {
         WalletConnectUtils.calculateExpiry(
           WalletConnectConstants.THIRTY_DAYS,
         )) {
-      throw WalletConnectError(
+      throw const WalletConnectError(
         code: -1,
         message: 'Expiry cannot be more than 30 days away',
       );
@@ -385,6 +385,10 @@ class Pairing implements IPairing {
     int? ttl,
     EncodeOptions? encodeOptions,
   }) async {
+    core.logger.v(
+      'pairing sendResult, id: $id topic: $topic, method: $method, params: $params, ttl: $ttl',
+    );
+
     final Map<String, dynamic> payload = JsonRpcUtils.formatJsonRpcRequest(
       method,
       params,
@@ -452,9 +456,9 @@ class Pairing implements IPairing {
     dynamic result, {
     EncodeOptions? encodeOptions,
   }) async {
-    // print('sending result');
-    // print(result);
-    // print(result.runtimeType);
+    core.logger.v(
+      'pairing sendResult, id: $id topic: $topic, method: $method, result: $result',
+    );
     final Map<String, dynamic> payload =
         JsonRpcUtils.formatJsonRpcResponse<dynamic>(
       id,
@@ -477,7 +481,6 @@ class Pairing implements IPairing {
       ttl: opts.ttl,
       tag: opts.tag,
     );
-    // await core.history.resolve(payload);
   }
 
   @override
@@ -488,6 +491,10 @@ class Pairing implements IPairing {
     JsonRpcError error, {
     EncodeOptions? encodeOptions,
   }) async {
+    core.logger.v(
+      'pairing sendError, id: $id topic: $topic, method: $method, error: $error',
+    );
+
     final Map<String, dynamic> payload = JsonRpcUtils.formatJsonRpcError(
       id,
       error,
@@ -512,12 +519,16 @@ class Pairing implements IPairing {
       ttl: opts.ttl,
       tag: opts.tag,
     );
-    // await history.resolve(payload);
   }
 
   /// ---- Private Helpers ---- ///
 
   Future<void> _resubscribeAll() async {
+    // If the relay is not active, stop here
+    if (!core.relayClient.isConnected) {
+      return;
+    }
+
     // Resubscribe to all active pairings
     final List<PairingInfo> activePairings = pairings.getAll();
     for (final PairingInfo pairing in activePairings) {
@@ -633,6 +644,7 @@ class Pairing implements IPairing {
     // print(payloadString);
 
     Map<String, dynamic> data = jsonDecode(payloadString);
+    core.logger.i('Pairing _onMessageEvent, Received data: $data');
 
     // If it's an rpc request, handle it
     // print('Pairing: Received data: $data');

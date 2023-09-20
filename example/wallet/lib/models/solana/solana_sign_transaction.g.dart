@@ -21,7 +21,7 @@ Map<String, dynamic> _$SolanaSignTransactionToJson(
     <String, dynamic>{
       'feePayer': instance.feePayer,
       'recentBlockhash': instance.recentBlockhash,
-      'instructions': instance.instructions.map((e) => e.toJson()).toList(),
+      'instructions': instance.instructions,
     };
 
 SolanaInstruction _$SolanaInstructionFromJson(Map<String, dynamic> json) =>
@@ -36,7 +36,7 @@ SolanaInstruction _$SolanaInstructionFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SolanaInstructionToJson(SolanaInstruction instance) =>
     <String, dynamic>{
       'programId': instance.programId,
-      'keys': instance.keys.map((e) => e.toJson()).toList(),
+      'keys': instance.keys,
       'data': instance.data,
     };
 

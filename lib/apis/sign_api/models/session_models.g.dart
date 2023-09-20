@@ -6,7 +6,7 @@ part of 'session_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Namespace _$NamespaceFromJson(Map json) => Namespace(
+_$_Namespace _$$_NamespaceFromJson(Map<String, dynamic> json) => _$_Namespace(
       accounts:
           (json['accounts'] as List<dynamic>).map((e) => e as String).toList(),
       methods:
@@ -15,36 +15,43 @@ Namespace _$NamespaceFromJson(Map json) => Namespace(
           (json['events'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$NamespaceToJson(Namespace instance) => <String, dynamic>{
+Map<String, dynamic> _$$_NamespaceToJson(_$_Namespace instance) =>
+    <String, dynamic>{
       'accounts': instance.accounts,
       'methods': instance.methods,
       'events': instance.events,
     };
 
-SessionData _$SessionDataFromJson(Map json) => SessionData(
+_$_SessionData _$$_SessionDataFromJson(Map<String, dynamic> json) =>
+    _$_SessionData(
       topic: json['topic'] as String,
       pairingTopic: json['pairingTopic'] as String,
-      relay: Relay.fromJson(json['relay'] as Map),
+      relay: Relay.fromJson(json['relay'] as Map<String, dynamic>),
       expiry: json['expiry'] as int,
       acknowledged: json['acknowledged'] as bool,
       controller: json['controller'] as String,
-      namespaces: (json['namespaces'] as Map).map(
-        (k, e) => MapEntry(k as String, Namespace.fromJson(e as Map)),
+      namespaces: (json['namespaces'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, Namespace.fromJson(e as Map<String, dynamic>)),
       ),
-      requiredNamespaces: (json['requiredNamespaces'] as Map?)?.map(
-        (k, e) => MapEntry(k as String, RequiredNamespace.fromJson(e as Map)),
+      requiredNamespaces:
+          (json['requiredNamespaces'] as Map<String, dynamic>?)?.map(
+        (k, e) =>
+            MapEntry(k, RequiredNamespace.fromJson(e as Map<String, dynamic>)),
       ),
-      optionalNamespaces: (json['optionalNamespaces'] as Map?)?.map(
-        (k, e) => MapEntry(k as String, RequiredNamespace.fromJson(e as Map)),
+      optionalNamespaces:
+          (json['optionalNamespaces'] as Map<String, dynamic>?)?.map(
+        (k, e) =>
+            MapEntry(k, RequiredNamespace.fromJson(e as Map<String, dynamic>)),
       ),
-      sessionProperties: (json['sessionProperties'] as Map?)?.map(
-        (k, e) => MapEntry(k as String, e as String),
+      sessionProperties:
+          (json['sessionProperties'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
       ),
-      self: ConnectionMetadata.fromJson(json['self'] as Map),
-      peer: ConnectionMetadata.fromJson(json['peer'] as Map),
+      self: ConnectionMetadata.fromJson(json['self'] as Map<String, dynamic>),
+      peer: ConnectionMetadata.fromJson(json['peer'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$SessionDataToJson(SessionData instance) {
+Map<String, dynamic> _$$_SessionDataToJson(_$_SessionData instance) {
   final val = <String, dynamic>{
     'topic': instance.topic,
     'pairingTopic': instance.pairingTopic,
@@ -71,7 +78,8 @@ Map<String, dynamic> _$SessionDataToJson(SessionData instance) {
   return val;
 }
 
-SessionRequest _$SessionRequestFromJson(Map json) => SessionRequest(
+_$_SessionRequest _$$_SessionRequestFromJson(Map<String, dynamic> json) =>
+    _$_SessionRequest(
       id: json['id'] as int,
       topic: json['topic'] as String,
       method: json['method'] as String,
@@ -79,7 +87,7 @@ SessionRequest _$SessionRequestFromJson(Map json) => SessionRequest(
       params: json['params'],
     );
 
-Map<String, dynamic> _$SessionRequestToJson(SessionRequest instance) =>
+Map<String, dynamic> _$$_SessionRequestToJson(_$_SessionRequest instance) =>
     <String, dynamic>{
       'id': instance.id,
       'topic': instance.topic,

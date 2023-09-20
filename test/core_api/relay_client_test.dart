@@ -3,13 +3,8 @@ import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
-import 'package:walletconnect_flutter_v2/apis/core/core.dart';
-import 'package:walletconnect_flutter_v2/apis/core/i_core.dart';
-import 'package:walletconnect_flutter_v2/apis/core/pairing/utils/pairing_models.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client.dart';
-import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client_models.dart';
-import 'package:walletconnect_flutter_v2/apis/models/basic_models.dart';
-import 'package:walletconnect_flutter_v2/apis/utils/errors.dart';
+import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 import '../shared/shared_test_values.dart';
 import '../shared/shared_test_utils.dart';
@@ -21,7 +16,62 @@ void main() {
   const TEST_TOPIC = 'abc123';
   const TEST_MESSAGE = 'swagmasterss';
 
+  test('relays are correct', () {
+    expect(
+      WalletConnectConstants.DEFAULT_RELAY_URL,
+      'wss://relay.walletconnect.com',
+    );
+    expect(
+      WalletConnectConstants.DEFAULT_PUSH_URL,
+      'https://echo.walletconnect.com',
+    );
+  });
+
   group('Relay throws errors', () {
+    test('on init if there is no internet connection', () async {
+      final MockWebSocketHandler mockWebSocketHandler = MockWebSocketHandler();
+      // when(mockWebSocketHandler.setup(url: anyNamed('url'))).thenAnswer(
+      //   (_) async => Future.value(),
+      // );
+      when(mockWebSocketHandler.connect()).thenThrow(const WalletConnectError(
+        code: -1,
+        message: 'No internet connection: test',
+      ));
+
+      const testRelayUrl = 'wss://relay.test.com';
+      ICore core = Core(
+        projectId: 'abc',
+        memoryStore: true,
+        relayUrl: testRelayUrl,
+      );
+      core.relayClient = RelayClient(
+        core: core,
+        messageTracker: getMessageTracker(core: core),
+        topicMap: getTopicMap(core: core),
+        socketHandler: mockWebSocketHandler,
+      );
+      int errorCounter = 0;
+      core.relayClient.onRelayClientError.subscribe((args) {
+        errorCounter++;
+        expect(args!.error.message, 'No internet connection: test');
+      });
+      await core.storage.init();
+      await core.crypto.init();
+      await core.relayClient.init();
+      // try {} on WalletConnectError catch (e) {
+      //   expect(e.message, 'No internet connection: test');
+      // }
+
+      verify(mockWebSocketHandler.setup(
+        url: argThat(
+          contains(testRelayUrl),
+          named: 'url',
+        ),
+      )).called(1);
+      verify(mockWebSocketHandler.connect()).called(1);
+      expect(errorCounter, 1);
+    });
+
     test('when connection parameters are invalid', () async {
       final http = MockHttpWrapper();
       when(http.get(any)).thenAnswer(
@@ -36,16 +86,32 @@ void main() {
         httpClient: http,
       );
 
-      expect(
-        () async => await core.start(),
-        throwsA(
-          isA<WalletConnectError>().having(
-            (e) => e.message,
-            'Invalid project id',
-            'WebSocket connection failed, this could be: 1. Missing project id, 2. Invalid project id, 3. Too many requests',
-          ),
-        ),
-      );
+      Completer completer = Completer();
+      core.relayClient.onRelayClientError.subscribe((args) {
+        expect(args!.error, isA<WalletConnectError>());
+        expect(
+          args.error.message,
+          WebSocketErrors.INVALID_PROJECT_ID_OR_JWT,
+        );
+        completer.complete();
+      });
+
+      await core.start();
+
+      await completer.future;
+
+      core.relayClient.onRelayClientError.unsubscribeAll();
+
+      // expect(
+      //   () async => await core.start(),
+      //   throwsA(
+      //     isA<WalletConnectError>().having(
+      //       (e) => e.message,
+      //       'Invalid project id',
+      //       'WebSocket connection failed, this could be: 1. Missing project id, 2. Invalid project id, 3. Too many requests',
+      //     ),
+      //   ),
+      // );
       // expect(
       //   () async => await core.start(),
       //   throwsA(
@@ -100,8 +166,14 @@ void main() {
     await coreA.start();
     await coreB.start();
 
-    await completerA.future;
-    await completerC.future;
+    if (!completerA.isCompleted) {
+      coreA.logger.i('relay client test waiting sessionACompleter');
+      await completerA.future;
+    }
+    if (!completerC.isCompleted) {
+      coreA.logger.i('relay client test waiting sessionCCompleter');
+      await completerC.future;
+    }
 
     expect(counterA, 1);
     expect(counterC, 1);
@@ -109,8 +181,14 @@ void main() {
     await coreA.relayClient.disconnect();
     await coreB.relayClient.disconnect();
 
-    await completerB.future;
-    await completerD.future;
+    if (!completerB.isCompleted) {
+      coreA.logger.i('relay client test waiting sessionBCompleter');
+      await completerB.future;
+    }
+    if (!completerD.isCompleted) {
+      coreA.logger.i('relay client test waiting sessionDCompleter');
+      await completerD.future;
+    }
 
     expect(counterB, 1);
     expect(counterD, 1);
@@ -131,7 +209,6 @@ void main() {
         core: core,
         messageTracker: messageTracker,
         topicMap: getTopicMap(core: core),
-        httpClient: getHttpWrapper(),
       );
       await relayClient.init();
     });
@@ -193,13 +270,11 @@ void main() {
           core: coreA,
           messageTracker: getMessageTracker(core: coreA),
           topicMap: getTopicMap(core: coreA),
-          httpClient: getHttpWrapper(),
         );
         coreB.relayClient = RelayClient(
           core: coreB,
           messageTracker: getMessageTracker(core: coreB),
           topicMap: getTopicMap(core: coreB),
-          httpClient: getHttpWrapper(),
         );
         await coreA.relayClient.init();
         await coreB.relayClient.init();

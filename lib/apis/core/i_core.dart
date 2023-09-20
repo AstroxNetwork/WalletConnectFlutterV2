@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:walletconnect_flutter_v2/apis/core/crypto/i_crypto.dart';
 import 'package:walletconnect_flutter_v2/apis/core/echo/i_echo.dart';
 import 'package:walletconnect_flutter_v2/apis/core/pairing/i_expirer.dart';
@@ -9,7 +10,7 @@ abstract class ICore {
   final String protocol = 'wc';
   final String version = '2';
 
-  abstract final String relayUrl;
+  abstract String relayUrl;
   abstract final String projectId;
   abstract final String pushUrl;
 
@@ -21,6 +22,7 @@ abstract class ICore {
   abstract IExpirer expirer;
   abstract IPairing pairing;
   abstract IEcho echo;
+  abstract final Logger logger;
 
   Future<void> start();
 }

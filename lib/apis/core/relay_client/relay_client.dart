@@ -8,11 +8,11 @@ import 'package:walletconnect_flutter_v2/apis/core/relay_client/i_message_tracke
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/i_relay_client.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/json_rpc_2/src/parameters.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/json_rpc_2/src/peer.dart';
-import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/i_http_client.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/i_websocket_handler.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client_models.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/websocket_handler.dart';
 import 'package:walletconnect_flutter_v2/apis/core/store/i_generic_store.dart';
+import 'package:walletconnect_flutter_v2/apis/models/basic_models.dart';
 import 'package:walletconnect_flutter_v2/apis/utils/constants.dart';
 import 'package:walletconnect_flutter_v2/apis/utils/errors.dart';
 import 'package:walletconnect_flutter_v2/apis/utils/walletconnect_utils.dart';
@@ -53,18 +53,25 @@ class RelayClient implements IRelayClient {
   @override
   final Event<EventArgs> onSubscriptionSync = Event();
 
+  @override
+  bool get isConnected => jsonRPC != null && !jsonRPC!.isClosed;
+
   bool _initialized = false;
+  bool _active = true;
+  bool _connecting = false;
+  Future _connectingFuture = Future.value();
+  bool _handledClose = false;
 
   // late WebSocketChannel socket;
-  late IWebSocketHandler socket;
-  late Peer jsonRPC;
+  // IWebSocketHandler? socket;
+  Peer? jsonRPC;
 
   /// Stores all the subs that haven't been completed
   Map<String, Future<dynamic>> pendingSubscriptions = {};
 
   IMessageTracker messageTracker;
   IGenericStore<String> topicMap;
-  IHttpClient httpClient;
+  final IWebSocketHandler socketHandler;
 
   ICore core;
 
@@ -75,10 +82,9 @@ class RelayClient implements IRelayClient {
     required this.core,
     required this.messageTracker,
     required this.topicMap,
-    required this.httpClient,
+    IWebSocketHandler? socketHandler,
     this.heartbeatPeriod = 5,
-    relayUrl = WalletConnectConstants.RELAYER_DEFAULT_PROTOCOL,
-  });
+  }) : socketHandler = socketHandler ?? WebSocketHandler();
 
   @override
   Future<void> init() async {
@@ -86,14 +92,14 @@ class RelayClient implements IRelayClient {
       return;
     }
 
-    onRelayClientDisconnect.subscribe(_reconnect);
-
-    // Setup the json RPC server
-    await _createJsonRPCProvider();
-    _startHeartbeat();
-
     await messageTracker.init();
     await topicMap.init();
+
+    // Setup the json RPC server
+    await _connect();
+    // _connectingFuture = _createJsonRPCProvider();
+    // await _connectingFuture;
+    // _startHeartbeat();
 
     _initialized = true;
   }
@@ -115,12 +121,12 @@ class RelayClient implements IRelayClient {
     };
 
     try {
+      await messageTracker.recordMessageEvent(topic, message);
       var _ = await _sendJsonRpcRequest(
         _buildMethod(JSON_RPC_PUBLISH),
         data,
         JsonRpcUtils.payloadId(entropy: 6),
       );
-      await messageTracker.recordMessageEvent(topic, message);
     } catch (e) {
       // print(e);
       onRelayClientError.broadcast(ErrorEvent(e));
@@ -141,7 +147,6 @@ class RelayClient implements IRelayClient {
     _checkInitialized();
 
     String id = topicMap.get(topic) ?? '';
-    // print('Unsub from id: $id');
 
     try {
       await _sendJsonRpcRequest(
@@ -156,7 +161,7 @@ class RelayClient implements IRelayClient {
       onRelayClientError.broadcast(ErrorEvent(e));
     }
 
-    // Temove the subscription
+    // Remove the subscription
     pendingSubscriptions.remove(topic);
     await topicMap.delete(topic);
 
@@ -168,33 +173,77 @@ class RelayClient implements IRelayClient {
   Future<void> connect({String? relayUrl}) async {
     _checkInitialized();
 
-    if (!jsonRPC.isClosed) {
-      return;
-    }
-    // print('connecting to relay server');
+    core.logger.i('RelayClient: Connecting to relay');
 
-    await disconnect();
-    await _createJsonRPCProvider();
-    if (_heartbeatTimer == null) {
-      _startHeartbeat();
-    }
+    await _connect(relayUrl: relayUrl);
   }
 
   @override
   Future<void> disconnect() async {
     _checkInitialized();
-    onRelayClientDisconnect.unsubscribe(_reconnect);
-    await jsonRPC.close();
-    await socket.close();
-    _heartbeatTimer?.cancel();
-    _heartbeatTimer = null;
-    onRelayClientDisconnect.subscribe(_reconnect);
+
+    core.logger.i('RelayClient: Disconnecting from relay');
+
+    await _disconnect();
   }
 
   /// PRIVATE FUNCTIONS ///
 
+  Future<void> _connect({String? relayUrl}) async {
+    core.logger.v('RelayClient Internal: Connecting to relay');
+    if (isConnected) {
+      return;
+    }
+
+    // If we have tried connecting to the relay before, disconnect
+    if (_active) {
+      await _disconnect();
+    }
+
+    // Connect and track the connection progress, then start the heartbeat
+    _connectingFuture = _createJsonRPCProvider();
+    await _connectingFuture;
+    if (_heartbeatTimer == null) {
+      _startHeartbeat();
+    }
+
+    // If it didn't connect, and the relayUrl is the default,
+    // recursively try the fallback
+    core.relayUrl = relayUrl ?? core.relayUrl;
+    if (!isConnected &&
+        core.relayUrl == WalletConnectConstants.DEFAULT_RELAY_URL) {
+      core.relayUrl = WalletConnectConstants.FALLBACK_RELAY_URL;
+      await _connect();
+
+      // If we still didn't connect, reset the relayUrl to the default
+      if (!isConnected) {
+        core.relayUrl = WalletConnectConstants.DEFAULT_RELAY_URL;
+      }
+    }
+  }
+
+  Future<void> _disconnect() async {
+    core.logger.v('RelayClient Internal: Disconnecting from relay');
+    _active = false;
+
+    final bool shouldBroadcastDisonnect = isConnected;
+
+    await jsonRPC?.close();
+    jsonRPC = null;
+    await socketHandler.close();
+    _heartbeatTimer?.cancel();
+    _heartbeatTimer = null;
+
+    if (shouldBroadcastDisonnect) {
+      onRelayClientDisconnect.broadcast();
+    }
+  }
+
   Future<void> _createJsonRPCProvider() async {
+    _connecting = true;
+    _active = true;
     var auth = await core.crypto.signJWT(core.relayUrl);
+    core.logger.v('Signed JWT: $auth');
     try {
       final String url = WalletConnectUtils.formatRelayRpcUrl(
         protocol: WalletConnectConstants.CORE_PROTOCOL,
@@ -204,65 +253,112 @@ class RelayClient implements IRelayClient {
         auth: auth,
         projectId: core.projectId,
       );
-      socket = WebSocketHandler(
+
+      if (jsonRPC != null) {
+        await jsonRPC!.close();
+        jsonRPC = null;
+      }
+
+      core.logger.v('Initializing WebSocket with $url');
+      await socketHandler.setup(
         url: url,
-        httpClient: httpClient,
-        origin: core.projectId,
+      );
+      await socketHandler.connect();
+
+      jsonRPC = Peer(
+        socketHandler.channel!,
       );
 
-      // print('got here');
-      await socket.init();
-
-      jsonRPC = Peer(socket.channel!);
-
-      jsonRPC.registerMethod(
+      jsonRPC!.registerMethod(
         _buildMethod(JSON_RPC_SUBSCRIPTION),
         _handleSubscription,
       );
-      jsonRPC.registerMethod(
+      jsonRPC!.registerMethod(
         _buildMethod(JSON_RPC_SUBSCRIBE),
         _handleSubscribe,
       );
-      jsonRPC.registerMethod(
+      jsonRPC!.registerMethod(
         _buildMethod(JSON_RPC_UNSUBSCRIBE),
         _handleUnsubscribe,
       );
 
-      jsonRPC.listen();
+      if (jsonRPC!.isClosed) {
+        throw const WalletConnectError(
+          code: 0,
+          message: 'WebSocket closed',
+        );
+      }
+
+      jsonRPC!.listen();
 
       // When jsonRPC closes, emit the event
-      jsonRPC.done.then((value) => onRelayClientDisconnect.broadcast());
-
-      // print('connected');
+      _handledClose = false;
+      jsonRPC!.done.then(
+        (value) {
+          _handleRelayClose(
+            socketHandler.closeCode,
+            socketHandler.closeReason,
+          );
+        },
+      );
 
       onRelayClientConnect.broadcast();
     } catch (e) {
-      onRelayClientError.broadcast(ErrorEvent(e));
-      rethrow;
+      onRelayClientError.broadcast(
+        ErrorEvent(
+          e,
+        ),
+      );
     }
+    _connecting = false;
   }
 
-  Future<void> _reconnect(EventArgs? args) async {
-    // print('disconnected, reconnecting');
-    await connect();
+  Future<void> _handleRelayClose(int? code, String? reason) async {
+    if (_handledClose) {
+      core.logger.i('Relay close already handled');
+      return;
+    }
+    _handledClose = true;
+
+    core.logger.i('Handling relay close, code: $code, reason: $reason');
+    // If the relay isn't active (Disconnected manually), don't do anything
+    if (!_active) {
+      return;
+    }
+
+    // If the code requires reconnect, do so
+    if (code != null) {
+      if (code == 1001 ||
+          code == 4008 ||
+          code == 4010 ||
+          code == 1002 ||
+          code == 1005) {
+        await connect();
+      } else {
+        await disconnect();
+        final String errorReason = code == 3000
+            ? WebSocketErrors.INVALID_PROJECT_ID_OR_JWT
+            : reason ?? '';
+        onRelayClientError.broadcast(
+          ErrorEvent(
+            WalletConnectError(
+              code: code,
+              message: errorReason,
+            ),
+          ),
+        );
+      }
+    }
   }
 
   void _startHeartbeat() {
     _heartbeatTimer = Timer.periodic(
       Duration(seconds: heartbeatPeriod),
       (timer) async {
-        // print('heartbeat');
-        if (jsonRPC.isClosed) {
+        if (jsonRPC != null && jsonRPC!.isClosed) {
+          core.logger.v('Heartbeat, WebSocket closed, reconnecting');
           await connect();
         }
-        //  else {
-        //   try {
-        //     socket.channel!.sink.add('ping');
-        //   } catch (e) {
-        //     // Close the socket and trigger the disconnect -> reconnect
-        //     await socket.close();
-        //   }
-        // }
       },
     );
   }
@@ -274,9 +370,12 @@ class RelayClient implements IRelayClient {
   /// JSON RPC MESSAGE HANDLERS
 
   Future<bool> handlePublish(String topic, String message) async {
-    // print('handle publish');
+    core.logger.v('Handling Publish Message: $topic, $message');
     // If we want to ignore the message, stop
-    if (await _shouldIgnoreMessageEvent(topic, message)) return false;
+    if (await _shouldIgnoreMessageEvent(topic, message)) {
+      core.logger.w('Ignoring Message: $topic, $message');
+      return false;
+    }
 
     // Record a message event
     await messageTracker.recordMessageEvent(topic, message);
@@ -291,24 +390,13 @@ class RelayClient implements IRelayClient {
     return true;
   }
 
-  // Future<bool> _handlePublish(Parameters params) async {
-  //   // print('handle publish');
-  //   String topic = params['topic'].value;
-  //   String message = params['message'].value;
-  //   return await handlePublish(topic, message);
-  // }
-
   Future<bool> _handleSubscription(Parameters params) async {
-    // print('handle subscription.');
     String topic = params['data']['topic'].value;
     String message = params['data']['message'].value;
-    // print(topic);
-    // print(message);
     return await handlePublish(topic, message);
   }
 
   int _handleSubscribe(Parameters params) {
-    // print('handle subscribe');
     return params.hashCode;
   }
 
@@ -328,28 +416,27 @@ class RelayClient implements IRelayClient {
     dynamic parameters,
     int? id,
   ]) async {
-    dynamic response;
-
-    try {
-      response = await jsonRPC.sendRequest(
-        method,
-        parameters,
-        id,
-      );
-    } on StateError catch (_) {
-      // Reconnect to the websocket
-      // print('StateError, reconnecting: $_');
-      await connect();
-      response = await jsonRPC.sendRequest(
-        method,
-        parameters,
-        id,
-      );
+    // If we are connected and we know it send the message!
+    if (isConnected) {
+      // Here so we dont return null
     }
-
-    // print('onSubscribe response $requestId');
-
-    return response;
+    // If we are connecting, then wait for the connection to establish and then send the message
+    else if (_connecting) {
+      await _connectingFuture;
+    }
+    // If we aren't connected but should be (active), try to (re)connect and then send the message
+    else if (!isConnected && _active) {
+      await connect();
+    }
+    // In all other cases return null
+    else {
+      return null;
+    }
+    return await jsonRPC!.sendRequest(
+      method,
+      parameters,
+      id,
+    );
   }
 
   Future<String> _onSubscribe(String topic) async {
@@ -361,7 +448,8 @@ class RelayClient implements IRelayClient {
         JsonRpcUtils.payloadId(entropy: 6),
       );
     } catch (e) {
-      // print('onSubscribe error: $e');
+      // print('onSubscribe error: $e, stack: $stacktrace');
+      core.logger.w('RelayClient, onSubscribe error. Topic: $topic, Error: $e');
       onRelayClientError.broadcast(ErrorEvent(e));
     }
 

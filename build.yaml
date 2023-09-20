@@ -1,7 +1,14 @@
 targets:
   $default:
     builders:
+      freezed:
+        generate_for:
+          - lib/**.dart
+          - test/shared/shared_test_utils.dart
       json_serializable:
         options:
           any_map: true
           explicit_to_json: true
+        generate_for:
+          - lib/**.dart
+          - test/shared/shared_test_utils.dart

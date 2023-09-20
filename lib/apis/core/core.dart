@@ -1,3 +1,4 @@
+import 'package:logger/logger.dart';
 import 'package:walletconnect_flutter_v2/apis/core/crypto/crypto.dart';
 import 'package:walletconnect_flutter_v2/apis/core/crypto/i_crypto.dart';
 import 'package:walletconnect_flutter_v2/apis/core/echo/echo.dart';
@@ -14,6 +15,7 @@ import 'package:walletconnect_flutter_v2/apis/core/relay_client/message_tracker.
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/http_client.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/i_http_client.dart';
+import 'package:walletconnect_flutter_v2/apis/core/relay_client/websocket/i_websocket_handler.dart';
 import 'package:walletconnect_flutter_v2/apis/core/store/generic_store.dart';
 import 'package:walletconnect_flutter_v2/apis/core/store/i_store.dart';
 import 'package:walletconnect_flutter_v2/apis/core/relay_client/i_relay_client.dart';
@@ -29,7 +31,7 @@ class Core implements ICore {
   String get version => '2';
 
   @override
-  final String relayUrl;
+  String relayUrl = WalletConnectConstants.DEFAULT_RELAY_URL;
 
   @override
   final String projectId;
@@ -55,6 +57,13 @@ class Core implements ICore {
   @override
   late IEcho echo;
 
+  Logger _logger = Logger(
+    level: Level.nothing,
+    printer: PrettyPrinter(),
+  );
+  @override
+  Logger get logger => _logger;
+
   @override
   late IStore<Map<String, dynamic>> storage;
 
@@ -63,8 +72,14 @@ class Core implements ICore {
     required this.projectId,
     this.pushUrl = WalletConnectConstants.DEFAULT_PUSH_URL,
     bool memoryStore = false,
+    Level logLevel = Level.nothing,
     IHttpClient httpClient = const HttpWrapper(),
+    IWebSocketHandler? webSocketHandler,
   }) {
+    _logger = Logger(
+      level: logLevel,
+      printer: PrettyPrinter(),
+    );
     storage = SharedPrefsStores(
       memoryStore: memoryStore,
     );
@@ -93,8 +108,9 @@ class Core implements ICore {
         version: StoreVersions.VERSION_TOPIC_MAP,
         fromJson: (dynamic value) => value as String,
       ),
-      httpClient: httpClient,
+      socketHandler: webSocketHandler,
     );
+
     expirer = Expirer(
       storage: storage,
       context: StoreVersions.CONTEXT_EXPIRER,
@@ -139,7 +155,6 @@ class Core implements ICore {
     await crypto.init();
     await relayClient.init();
     await expirer.init();
-    // await history.init();
     await pairing.init();
   }
 }
