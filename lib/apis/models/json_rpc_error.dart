@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'json_rpc_error.g.dart';
 part 'json_rpc_error.freezed.dart';
+part 'json_rpc_error.g.dart';
 
 @freezed
 class JsonRpcError with _$JsonRpcError {
@@ -22,6 +22,6 @@ class JsonRpcError with _$JsonRpcError {
   factory JsonRpcError.methodNotFound(String message) =>
       JsonRpcError(code: -32601, message: message);
 
-  factory JsonRpcError.fromJson(Map json) =>
+  factory JsonRpcError.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcErrorFromJson(json);
 }

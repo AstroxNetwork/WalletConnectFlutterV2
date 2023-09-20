@@ -3,8 +3,8 @@ import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client_mod
 import 'package:walletconnect_flutter_v2/apis/models/basic_models.dart';
 import 'package:walletconnect_flutter_v2/apis/sign_api/models/session_models.dart';
 
-part 'proposal_models.g.dart';
 part 'proposal_models.freezed.dart';
+part 'proposal_models.g.dart';
 
 @freezed
 class RequiredNamespace with _$RequiredNamespace {
@@ -15,7 +15,7 @@ class RequiredNamespace with _$RequiredNamespace {
     required List<String> events,
   }) = _RequiredNamespace;
 
-  factory RequiredNamespace.fromJson(Map json) =>
+  factory RequiredNamespace.fromJson(Map<String, dynamic> json) =>
       _$RequiredNamespaceFromJson(json);
 }
 
@@ -27,7 +27,7 @@ class SessionProposal with _$SessionProposal {
     required ProposalData params,
   }) = _SessionProposal;
 
-  factory SessionProposal.fromJson(Map json) =>
+  factory SessionProposal.fromJson(Map<String, dynamic> json) =>
       _$SessionProposalFromJson(json);
 }
 
@@ -46,6 +46,6 @@ class ProposalData with _$ProposalData {
     Map<String, Namespace>? generatedNamespaces,
   }) = _ProposalData;
 
-  factory ProposalData.fromJson(Map json) =>
+  factory ProposalData.fromJson(Map<String, dynamic> json) =>
       _$ProposalDataFromJson(json);
 }

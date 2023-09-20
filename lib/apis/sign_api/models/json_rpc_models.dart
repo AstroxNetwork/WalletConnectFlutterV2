@@ -4,8 +4,8 @@ import 'package:walletconnect_flutter_v2/apis/models/basic_models.dart';
 import 'package:walletconnect_flutter_v2/apis/sign_api/models/proposal_models.dart';
 import 'package:walletconnect_flutter_v2/apis/sign_api/models/session_models.dart';
 
-part 'json_rpc_models.g.dart';
 part 'json_rpc_models.freezed.dart';
+part 'json_rpc_models.g.dart';
 
 @freezed
 class WcPairingDeleteRequest with _$WcPairingDeleteRequest {
@@ -15,7 +15,7 @@ class WcPairingDeleteRequest with _$WcPairingDeleteRequest {
     required String message,
   }) = _WcPairingDeleteRequest;
 
-  factory WcPairingDeleteRequest.fromJson(Map json) =>
+  factory WcPairingDeleteRequest.fromJson(Map<String, dynamic> json) =>
       _$WcPairingDeleteRequestFromJson(json);
 }
 
@@ -26,7 +26,7 @@ class WcPairingPingRequest with _$WcPairingPingRequest {
     required Map<String, dynamic> data,
   }) = _WcPairingPingRequest;
 
-  factory WcPairingPingRequest.fromJson(Map json) =>
+  factory WcPairingPingRequest.fromJson(Map<String, dynamic> json) =>
       _$WcPairingPingRequestFromJson(json);
 }
 
@@ -41,7 +41,7 @@ class WcSessionProposeRequest with _$WcSessionProposeRequest {
     required ConnectionMetadata proposer,
   }) = _WcSessionProposeRequest;
 
-  factory WcSessionProposeRequest.fromJson(Map json) =>
+  factory WcSessionProposeRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionProposeRequestFromJson(json);
 }
 
@@ -53,7 +53,7 @@ class WcSessionProposeResponse with _$WcSessionProposeResponse {
     required String responderPublicKey,
   }) = _WcSessionProposeResponse;
 
-  factory WcSessionProposeResponse.fromJson(Map json) =>
+  factory WcSessionProposeResponse.fromJson(Map<String, dynamic> json) =>
       _$WcSessionProposeResponseFromJson(json);
 }
 
@@ -70,7 +70,7 @@ class WcSessionSettleRequest with _$WcSessionSettleRequest {
     required ConnectionMetadata controller,
   }) = _WcSessionSettleRequest;
 
-  factory WcSessionSettleRequest.fromJson(Map json) =>
+  factory WcSessionSettleRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionSettleRequestFromJson(json);
 }
 
@@ -81,7 +81,7 @@ class WcSessionUpdateRequest with _$WcSessionUpdateRequest {
     required Map<String, Namespace> namespaces,
   }) = _WcSessionUpdateRequest;
 
-  factory WcSessionUpdateRequest.fromJson(Map json) =>
+  factory WcSessionUpdateRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionUpdateRequestFromJson(json);
 }
 
@@ -92,7 +92,7 @@ class WcSessionExtendRequest with _$WcSessionExtendRequest {
     Map<String, dynamic>? data,
   }) = _WcSessionExtendRequest;
 
-  factory WcSessionExtendRequest.fromJson(Map json) =>
+  factory WcSessionExtendRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionExtendRequestFromJson(json);
 }
 
@@ -105,7 +105,7 @@ class WcSessionDeleteRequest with _$WcSessionDeleteRequest {
     String? data,
   }) = _WcSessionDeleteRequest;
 
-  factory WcSessionDeleteRequest.fromJson(Map json) =>
+  factory WcSessionDeleteRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionDeleteRequestFromJson(json);
 }
 
@@ -116,7 +116,7 @@ class WcSessionPingRequest with _$WcSessionPingRequest {
     Map<String, dynamic>? data,
   }) = _WcSessionPingRequest;
 
-  factory WcSessionPingRequest.fromJson(Map json) =>
+  factory WcSessionPingRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionPingRequestFromJson(json);
 }
 
@@ -128,7 +128,7 @@ class WcSessionRequestRequest with _$WcSessionRequestRequest {
     required SessionRequestParams request,
   }) = _WcSessionRequestRequest;
 
-  factory WcSessionRequestRequest.fromJson(Map json) =>
+  factory WcSessionRequestRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionRequestRequestFromJson(json);
 }
 
@@ -140,7 +140,7 @@ class SessionRequestParams with _$SessionRequestParams {
     required dynamic params,
   }) = _SessionRequestParams;
 
-  factory SessionRequestParams.fromJson(Map json) =>
+  factory SessionRequestParams.fromJson(Map<String, dynamic> json) =>
       _$SessionRequestParamsFromJson(json);
 }
 
@@ -152,7 +152,7 @@ class WcSessionEventRequest with _$WcSessionEventRequest {
     required SessionEventParams event,
   }) = _WcSessionEventRequest;
 
-  factory WcSessionEventRequest.fromJson(Map json) =>
+  factory WcSessionEventRequest.fromJson(Map<String, dynamic> json) =>
       _$WcSessionEventRequestFromJson(json);
 }
 
@@ -164,6 +164,6 @@ class SessionEventParams with _$SessionEventParams {
     required dynamic data,
   }) = _SessionEventParams;
 
-  factory SessionEventParams.fromJson(Map json) =>
+  factory SessionEventParams.fromJson(Map<String, dynamic> json) =>
       _$SessionEventParamsFromJson(json);
 }

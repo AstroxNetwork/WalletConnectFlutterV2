@@ -5,8 +5,8 @@ import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client_mod
 import 'package:walletconnect_flutter_v2/apis/models/basic_models.dart';
 import 'package:walletconnect_flutter_v2/apis/sign_api/models/proposal_models.dart';
 
-part 'session_models.g.dart';
 part 'session_models.freezed.dart';
+part 'session_models.g.dart';
 
 class SessionProposalCompleter {
   final int id;
@@ -42,7 +42,7 @@ class Namespace with _$Namespace {
     required List<String> events,
   }) = _Namespace;
 
-  factory Namespace.fromJson(Map json) =>
+  factory Namespace.fromJson(Map<String, dynamic> json) =>
       _$NamespaceFromJson(json);
 }
 
@@ -64,7 +64,7 @@ class SessionData with _$SessionData {
     required ConnectionMetadata peer,
   }) = _SessionData;
 
-  factory SessionData.fromJson(Map json) =>
+  factory SessionData.fromJson(Map<String, dynamic> json) =>
       _$SessionDataFromJson(json);
 }
 
@@ -79,6 +79,6 @@ class SessionRequest with _$SessionRequest {
     required dynamic params,
   }) = _SessionRequest;
 
-  factory SessionRequest.fromJson(Map json) =>
+  factory SessionRequest.fromJson(Map<String, dynamic> json) =>
       _$SessionRequestFromJson(json);
 }

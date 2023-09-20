@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'json_rpc_request.g.dart';
 part 'json_rpc_request.freezed.dart';
+part 'json_rpc_request.g.dart';
 
 @freezed
 class JsonRpcRequest with _$JsonRpcRequest {
@@ -13,6 +13,6 @@ class JsonRpcRequest with _$JsonRpcRequest {
     dynamic params,
   }) = _JsonRpcRequest;
 
-  factory JsonRpcRequest.fromJson(Map json) =>
+  factory JsonRpcRequest.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcRequestFromJson(json);
 }

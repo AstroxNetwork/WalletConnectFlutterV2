@@ -8,10 +8,11 @@ part of 'echo_response.dart';
 
 EchoResponse _$EchoResponseFromJson(Map json) => EchoResponse(
       errors: (json['errors'] as List<dynamic>?)
-          ?.map((e) => ResponseError.fromJson(e as Map))
+          ?.map((e) =>
+              ResponseError.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
       fields: (json['fields'] as List<dynamic>?)
-          ?.map((e) => Field.fromJson(e as Map))
+          ?.map((e) => Field.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
       status: json['status'] as String,
     );

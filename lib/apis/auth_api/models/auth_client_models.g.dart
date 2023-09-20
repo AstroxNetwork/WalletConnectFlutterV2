@@ -6,8 +6,7 @@ part of 'auth_client_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AuthPublicKey _$$_AuthPublicKeyFromJson(Map<String, dynamic> json) =>
-    _$_AuthPublicKey(
+_$_AuthPublicKey _$$_AuthPublicKeyFromJson(Map json) => _$_AuthPublicKey(
       publicKey: json['publicKey'] as String,
     );
 
@@ -16,7 +15,7 @@ Map<String, dynamic> _$$_AuthPublicKeyToJson(_$_AuthPublicKey instance) =>
       'publicKey': instance.publicKey,
     };
 
-_$_AuthPayloadParams _$$_AuthPayloadParamsFromJson(Map<String, dynamic> json) =>
+_$_AuthPayloadParams _$$_AuthPayloadParamsFromJson(Map json) =>
     _$_AuthPayloadParams(
       type: json['type'] as String,
       chainId: json['chainId'] as String,
@@ -60,8 +59,7 @@ Map<String, dynamic> _$$_AuthPayloadParamsToJson(
   return val;
 }
 
-_$_CacaoRequestPayload _$$_CacaoRequestPayloadFromJson(
-        Map<String, dynamic> json) =>
+_$_CacaoRequestPayload _$$_CacaoRequestPayloadFromJson(Map json) =>
     _$_CacaoRequestPayload(
       domain: json['domain'] as String,
       aud: json['aud'] as String,
@@ -101,8 +99,7 @@ Map<String, dynamic> _$$_CacaoRequestPayloadToJson(
   return val;
 }
 
-_$_CacaoPayload _$$_CacaoPayloadFromJson(Map<String, dynamic> json) =>
-    _$_CacaoPayload(
+_$_CacaoPayload _$$_CacaoPayloadFromJson(Map json) => _$_CacaoPayload(
       iss: json['iss'] as String,
       domain: json['domain'] as String,
       aud: json['aud'] as String,
@@ -142,8 +139,7 @@ Map<String, dynamic> _$$_CacaoPayloadToJson(_$_CacaoPayload instance) {
   return val;
 }
 
-_$_CacaoHeader _$$_CacaoHeaderFromJson(Map<String, dynamic> json) =>
-    _$_CacaoHeader(
+_$_CacaoHeader _$$_CacaoHeaderFromJson(Map json) => _$_CacaoHeader(
       t: json['t'] as String? ?? 'eip4361',
     );
 
@@ -152,8 +148,7 @@ Map<String, dynamic> _$$_CacaoHeaderToJson(_$_CacaoHeader instance) =>
       't': instance.t,
     };
 
-_$_CacaoSignature _$$_CacaoSignatureFromJson(Map<String, dynamic> json) =>
-    _$_CacaoSignature(
+_$_CacaoSignature _$$_CacaoSignatureFromJson(Map json) => _$_CacaoSignature(
       t: json['t'] as String,
       s: json['s'] as String,
       m: json['m'] as String?,
@@ -175,10 +170,10 @@ Map<String, dynamic> _$$_CacaoSignatureToJson(_$_CacaoSignature instance) {
   return val;
 }
 
-_$_Cacao _$$_CacaoFromJson(Map<String, dynamic> json) => _$_Cacao(
-      h: CacaoHeader.fromJson(json['h'] as Map<String, dynamic>),
-      p: CacaoPayload.fromJson(json['p'] as Map<String, dynamic>),
-      s: CacaoSignature.fromJson(json['s'] as Map<String, dynamic>),
+_$_Cacao _$$_CacaoFromJson(Map json) => _$_Cacao(
+      h: CacaoHeader.fromJson(Map<String, dynamic>.from(json['h'] as Map)),
+      p: CacaoPayload.fromJson(Map<String, dynamic>.from(json['p'] as Map)),
+      s: CacaoSignature.fromJson(Map<String, dynamic>.from(json['s'] as Map)),
     );
 
 Map<String, dynamic> _$$_CacaoToJson(_$_Cacao instance) => <String, dynamic>{
@@ -187,13 +182,12 @@ Map<String, dynamic> _$$_CacaoToJson(_$_Cacao instance) => <String, dynamic>{
       's': instance.s.toJson(),
     };
 
-_$_StoredCacao _$$_StoredCacaoFromJson(Map<String, dynamic> json) =>
-    _$_StoredCacao(
+_$_StoredCacao _$$_StoredCacaoFromJson(Map json) => _$_StoredCacao(
       id: json['id'] as int,
       pairingTopic: json['pairingTopic'] as String,
-      h: CacaoHeader.fromJson(json['h'] as Map<String, dynamic>),
-      p: CacaoPayload.fromJson(json['p'] as Map<String, dynamic>),
-      s: CacaoSignature.fromJson(json['s'] as Map<String, dynamic>),
+      h: CacaoHeader.fromJson(Map<String, dynamic>.from(json['h'] as Map)),
+      p: CacaoPayload.fromJson(Map<String, dynamic>.from(json['p'] as Map)),
+      s: CacaoSignature.fromJson(Map<String, dynamic>.from(json['s'] as Map)),
     );
 
 Map<String, dynamic> _$$_StoredCacaoToJson(_$_StoredCacao instance) =>
@@ -205,15 +199,14 @@ Map<String, dynamic> _$$_StoredCacaoToJson(_$_StoredCacao instance) =>
       's': instance.s.toJson(),
     };
 
-_$_PendingAuthRequest _$$_PendingAuthRequestFromJson(
-        Map<String, dynamic> json) =>
+_$_PendingAuthRequest _$$_PendingAuthRequestFromJson(Map json) =>
     _$_PendingAuthRequest(
       id: json['id'] as int,
       pairingTopic: json['pairingTopic'] as String,
-      metadata:
-          ConnectionMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      metadata: ConnectionMetadata.fromJson(
+          Map<String, dynamic>.from(json['metadata'] as Map)),
       cacaoPayload: CacaoRequestPayload.fromJson(
-          json['cacaoPayload'] as Map<String, dynamic>),
+          Map<String, dynamic>.from(json['cacaoPayload'] as Map)),
     );
 
 Map<String, dynamic> _$$_PendingAuthRequestToJson(

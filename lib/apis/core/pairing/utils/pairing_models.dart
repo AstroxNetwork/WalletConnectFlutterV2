@@ -4,8 +4,8 @@ import 'package:walletconnect_flutter_v2/apis/core/relay_client/relay_client_mod
 import 'package:walletconnect_flutter_v2/apis/models/json_rpc_error.dart';
 import 'package:walletconnect_flutter_v2/apis/models/json_rpc_request.dart';
 
-part 'pairing_models.g.dart';
 part 'pairing_models.freezed.dart';
+part 'pairing_models.g.dart';
 
 enum ProtocolType {
   pair,
@@ -24,7 +24,7 @@ class PairingInfo with _$PairingInfo {
     PairingMetadata? peerMetadata,
   }) = _PairingInfo;
 
-  factory PairingInfo.fromJson(Map json) =>
+  factory PairingInfo.fromJson(Map<String, dynamic> json) =>
       _$PairingInfoFromJson(json);
 }
 
@@ -46,7 +46,7 @@ class PairingMetadata with _$PairingMetadata {
         icons: [],
       );
 
-  factory PairingMetadata.fromJson(Map json) =>
+  factory PairingMetadata.fromJson(Map<String, dynamic> json) =>
       _$PairingMetadataFromJson(json);
 }
 
@@ -58,7 +58,7 @@ class Redirect with _$Redirect {
     String? universal,
   }) = _Redirect;
 
-  factory Redirect.fromJson(Map json) =>
+  factory Redirect.fromJson(Map<String, dynamic> json) =>
       _$RedirectFromJson(json);
 }
 
@@ -163,7 +163,7 @@ class JsonRpcRecord with _$JsonRpcRecord {
     dynamic response,
   }) = _JsonRpcRecord;
 
-  factory JsonRpcRecord.fromJson(Map json) =>
+  factory JsonRpcRecord.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcRecordFromJson(json);
 }
 
@@ -176,7 +176,7 @@ class ReceiverPublicKey with _$ReceiverPublicKey {
     required int expiry,
   }) = _ReceiverPublicKey;
 
-  factory ReceiverPublicKey.fromJson(Map json) =>
+  factory ReceiverPublicKey.fromJson(Map<String, dynamic> json) =>
       _$ReceiverPublicKeyFromJson(json);
 }
 

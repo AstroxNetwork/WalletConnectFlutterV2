@@ -6,7 +6,7 @@ part of 'ethereum_transaction.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-EthereumTransaction _$EthereumTransactionFromJson(Map<String, dynamic> json) =>
+EthereumTransaction _$EthereumTransactionFromJson(Map json) =>
     EthereumTransaction(
       from: json['from'] as String,
       to: json['to'] as String,

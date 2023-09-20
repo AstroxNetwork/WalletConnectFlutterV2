@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:walletconnect_flutter_v2/apis/core/pairing/utils/pairing_models.dart';
 
-part 'basic_models.g.dart';
 part 'basic_models.freezed.dart';
+part 'basic_models.g.dart';
 
 /// ERRORS
 
@@ -17,7 +17,7 @@ class WalletConnectError with _$WalletConnectError {
     String? data,
   }) = _WalletConnectError;
 
-  factory WalletConnectError.fromJson(Map json) =>
+  factory WalletConnectError.fromJson(Map<String, dynamic> json) =>
       _$WalletConnectErrorFromJson(json);
 }
 
@@ -39,6 +39,6 @@ class ConnectionMetadata with _$ConnectionMetadata {
     required PairingMetadata metadata,
   }) = _ConnectionMetadata;
 
-  factory ConnectionMetadata.fromJson(Map json) =>
+  factory ConnectionMetadata.fromJson(Map<String, dynamic> json) =>
       _$ConnectionMetadataFromJson(json);
 }

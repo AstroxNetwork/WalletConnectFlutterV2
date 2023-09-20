@@ -7,7 +7,7 @@ part of 'json_rpc_response.dart';
 // **************************************************************************
 
 _$_JsonRpcResponse<T> _$$_JsonRpcResponseFromJson<T>(
-  Map<String, dynamic> json,
+  Map json,
   T Function(Object? json) fromJsonT,
 ) =>
     _$_JsonRpcResponse<T>(
@@ -15,7 +15,8 @@ _$_JsonRpcResponse<T> _$$_JsonRpcResponseFromJson<T>(
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       error: json['error'] == null
           ? null
-          : JsonRpcError.fromJson(json['error'] as Map<String, dynamic>),
+          : JsonRpcError.fromJson(
+              Map<String, dynamic>.from(json['error'] as Map)),
       result: _$nullableGenericFromJson(json['result'], fromJsonT),
     );
 

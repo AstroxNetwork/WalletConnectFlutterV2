@@ -6,7 +6,7 @@ part of 'proposal_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_RequiredNamespace _$$_RequiredNamespaceFromJson(Map<String, dynamic> json) =>
+_$_RequiredNamespace _$$_RequiredNamespaceFromJson(Map json) =>
     _$_RequiredNamespace(
       chains:
           (json['chains'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -32,10 +32,10 @@ Map<String, dynamic> _$$_RequiredNamespaceToJson(
   return val;
 }
 
-_$_SessionProposal _$$_SessionProposalFromJson(Map<String, dynamic> json) =>
-    _$_SessionProposal(
+_$_SessionProposal _$$_SessionProposalFromJson(Map json) => _$_SessionProposal(
       id: json['id'] as int,
-      params: ProposalData.fromJson(json['params'] as Map<String, dynamic>),
+      params: ProposalData.fromJson(
+          Map<String, dynamic>.from(json['params'] as Map)),
     );
 
 Map<String, dynamic> _$$_SessionProposalToJson(_$_SessionProposal instance) =>
@@ -44,33 +44,29 @@ Map<String, dynamic> _$$_SessionProposalToJson(_$_SessionProposal instance) =>
       'params': instance.params.toJson(),
     };
 
-_$_ProposalData _$$_ProposalDataFromJson(Map<String, dynamic> json) =>
-    _$_ProposalData(
+_$_ProposalData _$$_ProposalDataFromJson(Map json) => _$_ProposalData(
       id: json['id'] as int,
       expiry: json['expiry'] as int,
       relays: (json['relays'] as List<dynamic>)
-          .map((e) => Relay.fromJson(e as Map<String, dynamic>))
+          .map((e) => Relay.fromJson(Map<String, dynamic>.from(e as Map)))
           .toList(),
-      proposer:
-          ConnectionMetadata.fromJson(json['proposer'] as Map<String, dynamic>),
-      requiredNamespaces:
-          (json['requiredNamespaces'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, RequiredNamespace.fromJson(e as Map<String, dynamic>)),
+      proposer: ConnectionMetadata.fromJson(
+          Map<String, dynamic>.from(json['proposer'] as Map)),
+      requiredNamespaces: (json['requiredNamespaces'] as Map).map(
+        (k, e) => MapEntry(k as String,
+            RequiredNamespace.fromJson(Map<String, dynamic>.from(e as Map))),
       ),
-      optionalNamespaces:
-          (json['optionalNamespaces'] as Map<String, dynamic>).map(
-        (k, e) =>
-            MapEntry(k, RequiredNamespace.fromJson(e as Map<String, dynamic>)),
+      optionalNamespaces: (json['optionalNamespaces'] as Map).map(
+        (k, e) => MapEntry(k as String,
+            RequiredNamespace.fromJson(Map<String, dynamic>.from(e as Map))),
       ),
       pairingTopic: json['pairingTopic'] as String,
-      sessionProperties:
-          (json['sessionProperties'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, e as String),
+      sessionProperties: (json['sessionProperties'] as Map?)?.map(
+        (k, e) => MapEntry(k as String, e as String),
       ),
-      generatedNamespaces:
-          (json['generatedNamespaces'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, Namespace.fromJson(e as Map<String, dynamic>)),
+      generatedNamespaces: (json['generatedNamespaces'] as Map?)?.map(
+        (k, e) => MapEntry(k as String,
+            Namespace.fromJson(Map<String, dynamic>.from(e as Map))),
       ),
     );
 

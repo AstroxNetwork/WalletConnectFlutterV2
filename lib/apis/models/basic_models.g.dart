@@ -6,8 +6,7 @@ part of 'basic_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_WalletConnectError _$$_WalletConnectErrorFromJson(
-        Map<String, dynamic> json) =>
+_$_WalletConnectError _$$_WalletConnectErrorFromJson(Map json) =>
     _$_WalletConnectError(
       code: json['code'] as int,
       message: json['message'] as String,
@@ -22,12 +21,11 @@ Map<String, dynamic> _$$_WalletConnectErrorToJson(
       'data': instance.data,
     };
 
-_$_ConnectionMetadata _$$_ConnectionMetadataFromJson(
-        Map<String, dynamic> json) =>
+_$_ConnectionMetadata _$$_ConnectionMetadataFromJson(Map json) =>
     _$_ConnectionMetadata(
       publicKey: json['publicKey'] as String,
-      metadata:
-          PairingMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      metadata: PairingMetadata.fromJson(
+          Map<String, dynamic>.from(json['metadata'] as Map)),
     );
 
 Map<String, dynamic> _$$_ConnectionMetadataToJson(

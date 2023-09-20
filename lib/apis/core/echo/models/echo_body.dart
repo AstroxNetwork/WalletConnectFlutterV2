@@ -14,7 +14,7 @@ class EchoBody {
     this.type = 'fcm',
   });
 
-  factory EchoBody.fromJson(Map json) =>
+  factory EchoBody.fromJson(Map<String, dynamic> json) =>
       _$EchoBodyFromJson(json);
 
   Map<String, dynamic> toJson() => _$EchoBodyToJson(this);

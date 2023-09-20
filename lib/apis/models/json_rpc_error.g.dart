@@ -6,8 +6,7 @@ part of 'json_rpc_error.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_JsonRpcError _$$_JsonRpcErrorFromJson(Map<String, dynamic> json) =>
-    _$_JsonRpcError(
+_$_JsonRpcError _$$_JsonRpcErrorFromJson(Map json) => _$_JsonRpcError(
       code: json['code'] as int?,
       message: json['message'] as String?,
     );

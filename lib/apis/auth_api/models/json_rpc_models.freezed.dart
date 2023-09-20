@@ -132,7 +132,7 @@ class __$$_WcAuthRequestRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class _$_WcAuthRequestRequest implements _WcAuthRequestRequest {
   const _$_WcAuthRequestRequest(
       {required this.payloadParams, required this.requester});
