@@ -6,28 +6,28 @@ part of 'json_rpc_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_WcAuthRequestRequest _$$_WcAuthRequestRequestFromJson(Map json) =>
-    _$_WcAuthRequestRequest(
+_$WcAuthRequestRequestImpl _$$WcAuthRequestRequestImplFromJson(Map json) =>
+    _$WcAuthRequestRequestImpl(
       payloadParams: AuthPayloadParams.fromJson(
           Map<String, dynamic>.from(json['payloadParams'] as Map)),
       requester: ConnectionMetadata.fromJson(
           Map<String, dynamic>.from(json['requester'] as Map)),
     );
 
-Map<String, dynamic> _$$_WcAuthRequestRequestToJson(
-        _$_WcAuthRequestRequest instance) =>
+Map<String, dynamic> _$$WcAuthRequestRequestImplToJson(
+        _$WcAuthRequestRequestImpl instance) =>
     <String, dynamic>{
       'payloadParams': instance.payloadParams.toJson(),
       'requester': instance.requester.toJson(),
     };
 
-_$_WcAuthRequestResult _$$_WcAuthRequestResultFromJson(Map json) =>
-    _$_WcAuthRequestResult(
+_$WcAuthRequestResultImpl _$$WcAuthRequestResultImplFromJson(Map json) =>
+    _$WcAuthRequestResultImpl(
       cacao: Cacao.fromJson(Map<String, dynamic>.from(json['cacao'] as Map)),
     );
 
-Map<String, dynamic> _$$_WcAuthRequestResultToJson(
-        _$_WcAuthRequestResult instance) =>
+Map<String, dynamic> _$$WcAuthRequestResultImplToJson(
+        _$WcAuthRequestResultImpl instance) =>
     <String, dynamic>{
       'cacao': instance.cacao.toJson(),
     };

@@ -6,17 +6,18 @@ part of 'auth_client_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_AuthPublicKey _$$_AuthPublicKeyFromJson(Map json) => _$_AuthPublicKey(
+_$AuthPublicKeyImpl _$$AuthPublicKeyImplFromJson(Map json) =>
+    _$AuthPublicKeyImpl(
       publicKey: json['publicKey'] as String,
     );
 
-Map<String, dynamic> _$$_AuthPublicKeyToJson(_$_AuthPublicKey instance) =>
+Map<String, dynamic> _$$AuthPublicKeyImplToJson(_$AuthPublicKeyImpl instance) =>
     <String, dynamic>{
       'publicKey': instance.publicKey,
     };
 
-_$_AuthPayloadParams _$$_AuthPayloadParamsFromJson(Map json) =>
-    _$_AuthPayloadParams(
+_$AuthPayloadParamsImpl _$$AuthPayloadParamsImplFromJson(Map json) =>
+    _$AuthPayloadParamsImpl(
       type: json['type'] as String,
       chainId: json['chainId'] as String,
       domain: json['domain'] as String,
@@ -33,8 +34,8 @@ _$_AuthPayloadParams _$$_AuthPayloadParamsFromJson(Map json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_AuthPayloadParamsToJson(
-    _$_AuthPayloadParams instance) {
+Map<String, dynamic> _$$AuthPayloadParamsImplToJson(
+    _$AuthPayloadParamsImpl instance) {
   final val = <String, dynamic>{
     'type': instance.type,
     'chainId': instance.chainId,
@@ -59,8 +60,8 @@ Map<String, dynamic> _$$_AuthPayloadParamsToJson(
   return val;
 }
 
-_$_CacaoRequestPayload _$$_CacaoRequestPayloadFromJson(Map json) =>
-    _$_CacaoRequestPayload(
+_$CacaoRequestPayloadImpl _$$CacaoRequestPayloadImplFromJson(Map json) =>
+    _$CacaoRequestPayloadImpl(
       domain: json['domain'] as String,
       aud: json['aud'] as String,
       version: json['version'] as String,
@@ -75,8 +76,8 @@ _$_CacaoRequestPayload _$$_CacaoRequestPayloadFromJson(Map json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$_CacaoRequestPayloadToJson(
-    _$_CacaoRequestPayload instance) {
+Map<String, dynamic> _$$CacaoRequestPayloadImplToJson(
+    _$CacaoRequestPayloadImpl instance) {
   final val = <String, dynamic>{
     'domain': instance.domain,
     'aud': instance.aud,
@@ -99,7 +100,7 @@ Map<String, dynamic> _$$_CacaoRequestPayloadToJson(
   return val;
 }
 
-_$_CacaoPayload _$$_CacaoPayloadFromJson(Map json) => _$_CacaoPayload(
+_$CacaoPayloadImpl _$$CacaoPayloadImplFromJson(Map json) => _$CacaoPayloadImpl(
       iss: json['iss'] as String,
       domain: json['domain'] as String,
       aud: json['aud'] as String,
@@ -115,7 +116,7 @@ _$_CacaoPayload _$$_CacaoPayloadFromJson(Map json) => _$_CacaoPayload(
           .toList(),
     );
 
-Map<String, dynamic> _$$_CacaoPayloadToJson(_$_CacaoPayload instance) {
+Map<String, dynamic> _$$CacaoPayloadImplToJson(_$CacaoPayloadImpl instance) {
   final val = <String, dynamic>{
     'iss': instance.iss,
     'domain': instance.domain,
@@ -139,22 +140,24 @@ Map<String, dynamic> _$$_CacaoPayloadToJson(_$_CacaoPayload instance) {
   return val;
 }
 
-_$_CacaoHeader _$$_CacaoHeaderFromJson(Map json) => _$_CacaoHeader(
+_$CacaoHeaderImpl _$$CacaoHeaderImplFromJson(Map json) => _$CacaoHeaderImpl(
       t: json['t'] as String? ?? 'eip4361',
     );
 
-Map<String, dynamic> _$$_CacaoHeaderToJson(_$_CacaoHeader instance) =>
+Map<String, dynamic> _$$CacaoHeaderImplToJson(_$CacaoHeaderImpl instance) =>
     <String, dynamic>{
       't': instance.t,
     };
 
-_$_CacaoSignature _$$_CacaoSignatureFromJson(Map json) => _$_CacaoSignature(
+_$CacaoSignatureImpl _$$CacaoSignatureImplFromJson(Map json) =>
+    _$CacaoSignatureImpl(
       t: json['t'] as String,
       s: json['s'] as String,
       m: json['m'] as String?,
     );
 
-Map<String, dynamic> _$$_CacaoSignatureToJson(_$_CacaoSignature instance) {
+Map<String, dynamic> _$$CacaoSignatureImplToJson(
+    _$CacaoSignatureImpl instance) {
   final val = <String, dynamic>{
     't': instance.t,
     's': instance.s,
@@ -170,27 +173,28 @@ Map<String, dynamic> _$$_CacaoSignatureToJson(_$_CacaoSignature instance) {
   return val;
 }
 
-_$_Cacao _$$_CacaoFromJson(Map json) => _$_Cacao(
+_$CacaoImpl _$$CacaoImplFromJson(Map json) => _$CacaoImpl(
       h: CacaoHeader.fromJson(Map<String, dynamic>.from(json['h'] as Map)),
       p: CacaoPayload.fromJson(Map<String, dynamic>.from(json['p'] as Map)),
       s: CacaoSignature.fromJson(Map<String, dynamic>.from(json['s'] as Map)),
     );
 
-Map<String, dynamic> _$$_CacaoToJson(_$_Cacao instance) => <String, dynamic>{
+Map<String, dynamic> _$$CacaoImplToJson(_$CacaoImpl instance) =>
+    <String, dynamic>{
       'h': instance.h.toJson(),
       'p': instance.p.toJson(),
       's': instance.s.toJson(),
     };
 
-_$_StoredCacao _$$_StoredCacaoFromJson(Map json) => _$_StoredCacao(
-      id: json['id'] as int,
+_$StoredCacaoImpl _$$StoredCacaoImplFromJson(Map json) => _$StoredCacaoImpl(
+      id: (json['id'] as num).toInt(),
       pairingTopic: json['pairingTopic'] as String,
       h: CacaoHeader.fromJson(Map<String, dynamic>.from(json['h'] as Map)),
       p: CacaoPayload.fromJson(Map<String, dynamic>.from(json['p'] as Map)),
       s: CacaoSignature.fromJson(Map<String, dynamic>.from(json['s'] as Map)),
     );
 
-Map<String, dynamic> _$$_StoredCacaoToJson(_$_StoredCacao instance) =>
+Map<String, dynamic> _$$StoredCacaoImplToJson(_$StoredCacaoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'pairingTopic': instance.pairingTopic,
@@ -199,9 +203,9 @@ Map<String, dynamic> _$$_StoredCacaoToJson(_$_StoredCacao instance) =>
       's': instance.s.toJson(),
     };
 
-_$_PendingAuthRequest _$$_PendingAuthRequestFromJson(Map json) =>
-    _$_PendingAuthRequest(
-      id: json['id'] as int,
+_$PendingAuthRequestImpl _$$PendingAuthRequestImplFromJson(Map json) =>
+    _$PendingAuthRequestImpl(
+      id: (json['id'] as num).toInt(),
       pairingTopic: json['pairingTopic'] as String,
       metadata: ConnectionMetadata.fromJson(
           Map<String, dynamic>.from(json['metadata'] as Map)),
@@ -209,8 +213,8 @@ _$_PendingAuthRequest _$$_PendingAuthRequestFromJson(Map json) =>
           Map<String, dynamic>.from(json['cacaoPayload'] as Map)),
     );
 
-Map<String, dynamic> _$$_PendingAuthRequestToJson(
-        _$_PendingAuthRequest instance) =>
+Map<String, dynamic> _$$PendingAuthRequestImplToJson(
+        _$PendingAuthRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'pairingTopic': instance.pairingTopic,

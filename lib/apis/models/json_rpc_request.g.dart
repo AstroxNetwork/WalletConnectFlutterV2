@@ -6,14 +6,16 @@ part of 'json_rpc_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_JsonRpcRequest _$$_JsonRpcRequestFromJson(Map json) => _$_JsonRpcRequest(
-      id: json['id'] as int,
+_$JsonRpcRequestImpl _$$JsonRpcRequestImplFromJson(Map json) =>
+    _$JsonRpcRequestImpl(
+      id: (json['id'] as num).toInt(),
       jsonrpc: json['jsonrpc'] as String? ?? '2.0',
       method: json['method'] as String,
       params: json['params'],
     );
 
-Map<String, dynamic> _$$_JsonRpcRequestToJson(_$_JsonRpcRequest instance) =>
+Map<String, dynamic> _$$JsonRpcRequestImplToJson(
+        _$JsonRpcRequestImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'jsonrpc': instance.jsonrpc,

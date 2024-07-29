@@ -12,7 +12,7 @@ part of 'session_models.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Namespace _$NamespaceFromJson(Map<String, dynamic> json) {
   return _Namespace.fromJson(json);
@@ -73,21 +73,22 @@ class _$NamespaceCopyWithImpl<$Res, $Val extends Namespace>
 }
 
 /// @nodoc
-abstract class _$$_NamespaceCopyWith<$Res> implements $NamespaceCopyWith<$Res> {
-  factory _$$_NamespaceCopyWith(
-          _$_Namespace value, $Res Function(_$_Namespace) then) =
-      __$$_NamespaceCopyWithImpl<$Res>;
+abstract class _$$NamespaceImplCopyWith<$Res>
+    implements $NamespaceCopyWith<$Res> {
+  factory _$$NamespaceImplCopyWith(
+          _$NamespaceImpl value, $Res Function(_$NamespaceImpl) then) =
+      __$$NamespaceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<String> accounts, List<String> methods, List<String> events});
 }
 
 /// @nodoc
-class __$$_NamespaceCopyWithImpl<$Res>
-    extends _$NamespaceCopyWithImpl<$Res, _$_Namespace>
-    implements _$$_NamespaceCopyWith<$Res> {
-  __$$_NamespaceCopyWithImpl(
-      _$_Namespace _value, $Res Function(_$_Namespace) _then)
+class __$$NamespaceImplCopyWithImpl<$Res>
+    extends _$NamespaceCopyWithImpl<$Res, _$NamespaceImpl>
+    implements _$$NamespaceImplCopyWith<$Res> {
+  __$$NamespaceImplCopyWithImpl(
+      _$NamespaceImpl _value, $Res Function(_$NamespaceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -97,7 +98,7 @@ class __$$_NamespaceCopyWithImpl<$Res>
     Object? methods = null,
     Object? events = null,
   }) {
-    return _then(_$_Namespace(
+    return _then(_$NamespaceImpl(
       accounts: null == accounts
           ? _value._accounts
           : accounts // ignore: cast_nullable_to_non_nullable
@@ -115,10 +116,9 @@ class __$$_NamespaceCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
-class _$_Namespace implements _Namespace {
-  const _$_Namespace(
+class _$NamespaceImpl implements _Namespace {
+  const _$NamespaceImpl(
       {required final List<String> accounts,
       required final List<String> methods,
       required final List<String> events})
@@ -126,8 +126,8 @@ class _$_Namespace implements _Namespace {
         _methods = methods,
         _events = events;
 
-  factory _$_Namespace.fromJson(Map<String, dynamic> json) =>
-      _$$_NamespaceFromJson(json);
+  factory _$NamespaceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NamespaceImplFromJson(json);
 
   final List<String> _accounts;
   @override
@@ -159,10 +159,10 @@ class _$_Namespace implements _Namespace {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Namespace &&
+            other is _$NamespaceImpl &&
             const DeepCollectionEquality().equals(other._accounts, _accounts) &&
             const DeepCollectionEquality().equals(other._methods, _methods) &&
             const DeepCollectionEquality().equals(other._events, _events));
@@ -179,12 +179,12 @@ class _$_Namespace implements _Namespace {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_NamespaceCopyWith<_$_Namespace> get copyWith =>
-      __$$_NamespaceCopyWithImpl<_$_Namespace>(this, _$identity);
+  _$$NamespaceImplCopyWith<_$NamespaceImpl> get copyWith =>
+      __$$NamespaceImplCopyWithImpl<_$NamespaceImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_NamespaceToJson(
+    return _$$NamespaceImplToJson(
       this,
     );
   }
@@ -194,10 +194,10 @@ abstract class _Namespace implements Namespace {
   const factory _Namespace(
       {required final List<String> accounts,
       required final List<String> methods,
-      required final List<String> events}) = _$_Namespace;
+      required final List<String> events}) = _$NamespaceImpl;
 
   factory _Namespace.fromJson(Map<String, dynamic> json) =
-      _$_Namespace.fromJson;
+      _$NamespaceImpl.fromJson;
 
   @override
   List<String> get accounts;
@@ -207,7 +207,7 @@ abstract class _Namespace implements Namespace {
   List<String> get events;
   @override
   @JsonKey(ignore: true)
-  _$$_NamespaceCopyWith<_$_Namespace> get copyWith =>
+  _$$NamespaceImplCopyWith<_$NamespaceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -359,11 +359,11 @@ class _$SessionDataCopyWithImpl<$Res, $Val extends SessionData>
 }
 
 /// @nodoc
-abstract class _$$_SessionDataCopyWith<$Res>
+abstract class _$$SessionDataImplCopyWith<$Res>
     implements $SessionDataCopyWith<$Res> {
-  factory _$$_SessionDataCopyWith(
-          _$_SessionData value, $Res Function(_$_SessionData) then) =
-      __$$_SessionDataCopyWithImpl<$Res>;
+  factory _$$SessionDataImplCopyWith(
+          _$SessionDataImpl value, $Res Function(_$SessionDataImpl) then) =
+      __$$SessionDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -387,11 +387,11 @@ abstract class _$$_SessionDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SessionDataCopyWithImpl<$Res>
-    extends _$SessionDataCopyWithImpl<$Res, _$_SessionData>
-    implements _$$_SessionDataCopyWith<$Res> {
-  __$$_SessionDataCopyWithImpl(
-      _$_SessionData _value, $Res Function(_$_SessionData) _then)
+class __$$SessionDataImplCopyWithImpl<$Res>
+    extends _$SessionDataCopyWithImpl<$Res, _$SessionDataImpl>
+    implements _$$SessionDataImplCopyWith<$Res> {
+  __$$SessionDataImplCopyWithImpl(
+      _$SessionDataImpl _value, $Res Function(_$SessionDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -410,7 +410,7 @@ class __$$_SessionDataCopyWithImpl<$Res>
     Object? self = null,
     Object? peer = null,
   }) {
-    return _then(_$_SessionData(
+    return _then(_$SessionDataImpl(
       topic: null == topic
           ? _value.topic
           : topic // ignore: cast_nullable_to_non_nullable
@@ -464,10 +464,9 @@ class __$$_SessionDataCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(includeIfNull: false)
-class _$_SessionData implements _SessionData {
-  const _$_SessionData(
+@JsonSerializable()
+class _$SessionDataImpl implements _SessionData {
+  const _$SessionDataImpl(
       {required this.topic,
       required this.pairingTopic,
       required this.relay,
@@ -485,8 +484,8 @@ class _$_SessionData implements _SessionData {
         _optionalNamespaces = optionalNamespaces,
         _sessionProperties = sessionProperties;
 
-  factory _$_SessionData.fromJson(Map<String, dynamic> json) =>
-      _$$_SessionDataFromJson(json);
+  factory _$SessionDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionDataImplFromJson(json);
 
   @override
   final String topic;
@@ -552,10 +551,10 @@ class _$_SessionData implements _SessionData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SessionData &&
+            other is _$SessionDataImpl &&
             (identical(other.topic, topic) || other.topic == topic) &&
             (identical(other.pairingTopic, pairingTopic) ||
                 other.pairingTopic == pairingTopic) &&
@@ -597,12 +596,12 @@ class _$_SessionData implements _SessionData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionDataCopyWith<_$_SessionData> get copyWith =>
-      __$$_SessionDataCopyWithImpl<_$_SessionData>(this, _$identity);
+  _$$SessionDataImplCopyWith<_$SessionDataImpl> get copyWith =>
+      __$$SessionDataImplCopyWithImpl<_$SessionDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SessionDataToJson(
+    return _$$SessionDataImplToJson(
       this,
     );
   }
@@ -621,10 +620,10 @@ abstract class _SessionData implements SessionData {
       final Map<String, RequiredNamespace>? optionalNamespaces,
       final Map<String, String>? sessionProperties,
       required final ConnectionMetadata self,
-      required final ConnectionMetadata peer}) = _$_SessionData;
+      required final ConnectionMetadata peer}) = _$SessionDataImpl;
 
   factory _SessionData.fromJson(Map<String, dynamic> json) =
-      _$_SessionData.fromJson;
+      _$SessionDataImpl.fromJson;
 
   @override
   String get topic;
@@ -652,7 +651,7 @@ abstract class _SessionData implements SessionData {
   ConnectionMetadata get peer;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionDataCopyWith<_$_SessionData> get copyWith =>
+  _$$SessionDataImplCopyWith<_$SessionDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -729,11 +728,11 @@ class _$SessionRequestCopyWithImpl<$Res, $Val extends SessionRequest>
 }
 
 /// @nodoc
-abstract class _$$_SessionRequestCopyWith<$Res>
+abstract class _$$SessionRequestImplCopyWith<$Res>
     implements $SessionRequestCopyWith<$Res> {
-  factory _$$_SessionRequestCopyWith(
-          _$_SessionRequest value, $Res Function(_$_SessionRequest) then) =
-      __$$_SessionRequestCopyWithImpl<$Res>;
+  factory _$$SessionRequestImplCopyWith(_$SessionRequestImpl value,
+          $Res Function(_$SessionRequestImpl) then) =
+      __$$SessionRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -741,11 +740,11 @@ abstract class _$$_SessionRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SessionRequestCopyWithImpl<$Res>
-    extends _$SessionRequestCopyWithImpl<$Res, _$_SessionRequest>
-    implements _$$_SessionRequestCopyWith<$Res> {
-  __$$_SessionRequestCopyWithImpl(
-      _$_SessionRequest _value, $Res Function(_$_SessionRequest) _then)
+class __$$SessionRequestImplCopyWithImpl<$Res>
+    extends _$SessionRequestCopyWithImpl<$Res, _$SessionRequestImpl>
+    implements _$$SessionRequestImplCopyWith<$Res> {
+  __$$SessionRequestImplCopyWithImpl(
+      _$SessionRequestImpl _value, $Res Function(_$SessionRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -757,7 +756,7 @@ class __$$_SessionRequestCopyWithImpl<$Res>
     Object? chainId = null,
     Object? params = freezed,
   }) {
-    return _then(_$_SessionRequest(
+    return _then(_$SessionRequestImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -783,18 +782,17 @@ class __$$_SessionRequestCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
 @JsonSerializable()
-class _$_SessionRequest implements _SessionRequest {
-  const _$_SessionRequest(
+class _$SessionRequestImpl implements _SessionRequest {
+  const _$SessionRequestImpl(
       {required this.id,
       required this.topic,
       required this.method,
       required this.chainId,
       required this.params});
 
-  factory _$_SessionRequest.fromJson(Map<String, dynamic> json) =>
-      _$$_SessionRequestFromJson(json);
+  factory _$SessionRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionRequestImplFromJson(json);
 
   @override
   final int id;
@@ -813,10 +811,10 @@ class _$_SessionRequest implements _SessionRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SessionRequest &&
+            other is _$SessionRequestImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.topic, topic) || other.topic == topic) &&
             (identical(other.method, method) || other.method == method) &&
@@ -832,12 +830,13 @@ class _$_SessionRequest implements _SessionRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionRequestCopyWith<_$_SessionRequest> get copyWith =>
-      __$$_SessionRequestCopyWithImpl<_$_SessionRequest>(this, _$identity);
+  _$$SessionRequestImplCopyWith<_$SessionRequestImpl> get copyWith =>
+      __$$SessionRequestImplCopyWithImpl<_$SessionRequestImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SessionRequestToJson(
+    return _$$SessionRequestImplToJson(
       this,
     );
   }
@@ -849,10 +848,10 @@ abstract class _SessionRequest implements SessionRequest {
       required final String topic,
       required final String method,
       required final String chainId,
-      required final dynamic params}) = _$_SessionRequest;
+      required final dynamic params}) = _$SessionRequestImpl;
 
   factory _SessionRequest.fromJson(Map<String, dynamic> json) =
-      _$_SessionRequest.fromJson;
+      _$SessionRequestImpl.fromJson;
 
   @override
   int get id;
@@ -866,6 +865,6 @@ abstract class _SessionRequest implements SessionRequest {
   dynamic get params;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionRequestCopyWith<_$_SessionRequest> get copyWith =>
+  _$$SessionRequestImplCopyWith<_$SessionRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

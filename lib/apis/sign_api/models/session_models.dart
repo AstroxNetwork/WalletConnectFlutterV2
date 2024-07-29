@@ -35,7 +35,6 @@ class SessionProposalCompleter {
 
 @freezed
 class Namespace with _$Namespace {
-  @JsonSerializable()
   const factory Namespace({
     required List<String> accounts,
     required List<String> methods,
@@ -47,8 +46,8 @@ class Namespace with _$Namespace {
 }
 
 @freezed
+@JsonSerializable(includeIfNull: false)
 class SessionData with _$SessionData {
-  @JsonSerializable(includeIfNull: false)
   const factory SessionData({
     required String topic,
     required String pairingTopic,
@@ -70,7 +69,6 @@ class SessionData with _$SessionData {
 
 @freezed
 class SessionRequest with _$SessionRequest {
-  @JsonSerializable()
   const factory SessionRequest({
     required int id,
     required String topic,

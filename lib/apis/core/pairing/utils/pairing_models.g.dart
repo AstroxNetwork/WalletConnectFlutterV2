@@ -6,9 +6,9 @@ part of 'pairing_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PairingInfo _$$_PairingInfoFromJson(Map json) => _$_PairingInfo(
+_$PairingInfoImpl _$$PairingInfoImplFromJson(Map json) => _$PairingInfoImpl(
       topic: json['topic'] as String,
-      expiry: json['expiry'] as int,
+      expiry: (json['expiry'] as num).toInt(),
       relay: Relay.fromJson(Map<String, dynamic>.from(json['relay'] as Map)),
       active: json['active'] as bool,
       peerMetadata: json['peerMetadata'] == null
@@ -17,7 +17,7 @@ _$_PairingInfo _$$_PairingInfoFromJson(Map json) => _$_PairingInfo(
               Map<String, dynamic>.from(json['peerMetadata'] as Map)),
     );
 
-Map<String, dynamic> _$$_PairingInfoToJson(_$_PairingInfo instance) =>
+Map<String, dynamic> _$$PairingInfoImplToJson(_$PairingInfoImpl instance) =>
     <String, dynamic>{
       'topic': instance.topic,
       'expiry': instance.expiry,
@@ -26,7 +26,8 @@ Map<String, dynamic> _$$_PairingInfoToJson(_$_PairingInfo instance) =>
       'peerMetadata': instance.peerMetadata?.toJson(),
     };
 
-_$_PairingMetadata _$$_PairingMetadataFromJson(Map json) => _$_PairingMetadata(
+_$PairingMetadataImpl _$$PairingMetadataImplFromJson(Map json) =>
+    _$PairingMetadataImpl(
       name: json['name'] as String,
       description: json['description'] as String,
       url: json['url'] as String,
@@ -37,7 +38,8 @@ _$_PairingMetadata _$$_PairingMetadataFromJson(Map json) => _$_PairingMetadata(
               Map<String, dynamic>.from(json['redirect'] as Map)),
     );
 
-Map<String, dynamic> _$$_PairingMetadataToJson(_$_PairingMetadata instance) {
+Map<String, dynamic> _$$PairingMetadataImplToJson(
+    _$PairingMetadataImpl instance) {
   final val = <String, dynamic>{
     'name': instance.name,
     'description': instance.description,
@@ -55,28 +57,29 @@ Map<String, dynamic> _$$_PairingMetadataToJson(_$_PairingMetadata instance) {
   return val;
 }
 
-_$_Redirect _$$_RedirectFromJson(Map json) => _$_Redirect(
+_$RedirectImpl _$$RedirectImplFromJson(Map json) => _$RedirectImpl(
       native: json['native'] as String?,
       universal: json['universal'] as String?,
     );
 
-Map<String, dynamic> _$$_RedirectToJson(_$_Redirect instance) =>
+Map<String, dynamic> _$$RedirectImplToJson(_$RedirectImpl instance) =>
     <String, dynamic>{
       'native': instance.native,
       'universal': instance.universal,
     };
 
-_$_JsonRpcRecord _$$_JsonRpcRecordFromJson(Map json) => _$_JsonRpcRecord(
-      id: json['id'] as int,
+_$JsonRpcRecordImpl _$$JsonRpcRecordImplFromJson(Map json) =>
+    _$JsonRpcRecordImpl(
+      id: (json['id'] as num).toInt(),
       topic: json['topic'] as String,
       method: json['method'] as String,
       params: json['params'],
       chainId: json['chainId'] as String?,
-      expiry: json['expiry'] as int?,
+      expiry: (json['expiry'] as num?)?.toInt(),
       response: json['response'],
     );
 
-Map<String, dynamic> _$$_JsonRpcRecordToJson(_$_JsonRpcRecord instance) {
+Map<String, dynamic> _$$JsonRpcRecordImplToJson(_$JsonRpcRecordImpl instance) {
   final val = <String, dynamic>{
     'id': instance.id,
     'topic': instance.topic,
@@ -96,15 +99,15 @@ Map<String, dynamic> _$$_JsonRpcRecordToJson(_$_JsonRpcRecord instance) {
   return val;
 }
 
-_$_ReceiverPublicKey _$$_ReceiverPublicKeyFromJson(Map json) =>
-    _$_ReceiverPublicKey(
+_$ReceiverPublicKeyImpl _$$ReceiverPublicKeyImplFromJson(Map json) =>
+    _$ReceiverPublicKeyImpl(
       topic: json['topic'] as String,
       publicKey: json['publicKey'] as String,
-      expiry: json['expiry'] as int,
+      expiry: (json['expiry'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$_ReceiverPublicKeyToJson(
-        _$_ReceiverPublicKey instance) =>
+Map<String, dynamic> _$$ReceiverPublicKeyImplToJson(
+        _$ReceiverPublicKeyImpl instance) =>
     <String, dynamic>{
       'topic': instance.topic,
       'publicKey': instance.publicKey,
