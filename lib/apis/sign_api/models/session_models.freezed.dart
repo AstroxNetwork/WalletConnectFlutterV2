@@ -464,7 +464,8 @@ class __$$SessionDataImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(includeIfNull: false)
 class _$SessionDataImpl implements _SessionData {
   const _$SessionDataImpl(
       {required this.topic,

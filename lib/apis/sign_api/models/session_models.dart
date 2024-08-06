@@ -46,8 +46,8 @@ class Namespace with _$Namespace {
 }
 
 @freezed
-@JsonSerializable(includeIfNull: false)
 class SessionData with _$SessionData {
+  @JsonSerializable(includeIfNull: false)
   const factory SessionData({
     required String topic,
     required String pairingTopic,
